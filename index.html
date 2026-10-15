@@ -35,7 +35,7 @@ body {
     radial-gradient(circle at top left,rgba(255,60,166,.25),transparent 35%),
     radial-gradient(circle at bottom right,rgba(52,217,255,.25),transparent 35%),
     #101018;
-  color:var(--white);
+  color:white;
 }
 
 button,
@@ -259,6 +259,16 @@ h3 {
   font-size:1.5rem;
 }
 
+.interference {
+  border:3px solid var(--black);
+  border-radius:16px;
+  padding:14px 18px;
+  background:var(--pink);
+  font-weight:900;
+  margin-bottom:20px;
+  text-align:center;
+}
+
 .preview-wrap {
   margin:20px 0;
   padding:18px;
@@ -311,7 +321,9 @@ h3 {
   font-size:clamp(2.3rem,8vw,4rem);
   background:white;
   box-shadow:4px 4px 0 var(--black);
-  transition:.12s ease;
+  transition:
+    transform .18s ease,
+    background .12s ease;
   user-select:none;
 }
 
@@ -321,28 +333,50 @@ h3 {
 
 .puzzle-tile.selected {
   background:var(--yellow);
-  transform:scale(.96);
+  transform:scale(.94);
 }
 
-.puzzle-tile.locked {
-  cursor:default;
+.puzzle-tile.bumped {
+  animation:bump .3s ease;
 }
 
-/* BIG DUMB FOAM FINGER */
+@keyframes bump {
+  0% { transform:translate(0,0) rotate(0); }
+  35% { transform:translate(10px,-8px) rotate(8deg); }
+  70% { transform:translate(-6px,5px) rotate(-5deg); }
+  100% { transform:translate(0,0) rotate(0); }
+}
 
 .foam-finger {
   position:absolute;
-  z-index:5;
+  z-index:6;
   font-size:7rem;
   pointer-events:none;
   transform:translate(-25%,-55%) rotate(-18deg);
   filter:drop-shadow(5px 5px 0 #111);
   display:none;
-  transition:left .08s linear, top .08s linear;
+}
+
+.foam-finger.slam {
+  animation:fingerSlam .32s ease;
+}
+
+@keyframes fingerSlam {
+  0% {
+    transform:translate(-25%,-95%) rotate(-18deg) scale(1.2);
+  }
+
+  70% {
+    transform:translate(-25%,-45%) rotate(-18deg) scale(.95);
+  }
+
+  100% {
+    transform:translate(-25%,-55%) rotate(-18deg) scale(1);
+  }
 }
 
 .game-message {
-  min-height:45px;
+  min-height:55px;
   padding:12px;
   margin-top:18px;
   border:3px solid var(--black);
@@ -655,7 +689,6 @@ textarea {
 }
 
 @media(max-width:700px) {
-
   .card {
     padding:28px 22px;
     border-radius:20px;
@@ -752,14 +785,8 @@ textarea {
       <h3>Your Tester Drop</h3>
 
       <div class="merch-grid">
-
-        <div class="merch">
-          🧥 FAWYL Hoodie
-        </div>
-
-        <div class="merch">
-          👕 FAWYL Shirt
-        </div>
+        <div class="merch">🧥 FAWYL Hoodie</div>
+        <div class="merch">👕 FAWYL Shirt</div>
 
         <div class="merch">
           🎁 Bonus Gift #1<br>
@@ -770,12 +797,10 @@ textarea {
           🎁 Bonus Gift #2<br>
           <span class="small">EXTREMELY CLASSIFIED</span>
         </div>
-
       </div>
 
       <div class="status">
         <strong>CURRENT STATUS:</strong>
-
         <p>🚗 Creator currently defeated by transportation.</p>
         <p>📦 Merch safe.</p>
         <p>❤️ CoCo absolutely not forgotten.</p>
@@ -869,7 +894,7 @@ textarea {
       </p>
 
       <h3>
-        Unfortunately, your hand has been replaced by sports merchandise.
+        Unfortunately, your hand has been replaced by sports merchandise with poor impulse control.
       </h3>
 
       <div class="status">
@@ -878,9 +903,9 @@ textarea {
 
         <p>🧩 Match the puzzle to the preview.</p>
         <p>👆 Tap one tile, then another tile to swap them.</p>
-        <p>☝️ Your enormous foam finger will help by blocking your view.</p>
+        <p>💥 Every tap lets the foam finger interfere first.</p>
+        <p>↔️ It may shove a tile, slide a row, slide a column, or hit multiple pieces.</p>
         <p>⏱️ You have 90 seconds.</p>
-        <p>🏆 Solve it before time runs out.</p>
 
       </div>
 
@@ -900,6 +925,11 @@ textarea {
 
         </div>
 
+        <div class="interference">
+          FOAM FINGER INTERFERENCE: ON<br>
+          <span class="small">Precision has been discontinued.</span>
+        </div>
+
         <div class="preview-wrap">
 
           <strong>
@@ -907,7 +937,6 @@ textarea {
           </strong>
 
           <div class="preview-grid">
-
             <div class="preview-tile">⚡</div>
             <div class="preview-tile">★</div>
             <div class="preview-tile">♥️</div>
@@ -919,7 +948,6 @@ textarea {
             <div class="preview-tile">♠️</div>
             <div class="preview-tile">☂️</div>
             <div class="preview-tile">✓</div>
-
           </div>
 
         </div>
@@ -939,7 +967,7 @@ textarea {
         </div>
 
         <div class="game-message" id="gameMessage">
-          Hit start when you're ready to lose all fine motor control.
+          Hit start when you're ready for the puzzle to become personally hostile.
         </div>
 
         <div class="result-box" id="resultBox">
@@ -987,27 +1015,20 @@ textarea {
   <div class="container">
     <div class="card">
 
-      <span class="badge">
-        Tester Check-In
-      </span>
+      <span class="badge">Tester Check-In</span>
 
-      <h2>
-        WELL.
-      </h2>
+      <h2>WELL.</h2>
 
       <p class="big-copy">
-        You touched a puzzle with a giant foam finger.
+        You tried to solve a puzzle while a foam finger actively sabotaged you.
       </p>
 
       <p>
-        Which is frankly more commitment than we had any right to ask for.
+        Which feels much more reasonable somehow.
       </p>
 
       <div class="rating-row">
-
-        <label>
-          How fun was it?
-        </label>
+        <label>How fun was it?</label>
 
         <select id="funRating">
           <option value="">Choose one</option>
@@ -1017,14 +1038,10 @@ textarea {
           <option>⭐⭐⭐⭐</option>
           <option>⭐⭐⭐⭐⭐</option>
         </select>
-
       </div>
 
       <div class="rating-row">
-
-        <label>
-          How easy were the rules to understand?
-        </label>
+        <label>How easy were the rules to understand?</label>
 
         <select id="rulesRating">
           <option value="">Choose one</option>
@@ -1034,14 +1051,10 @@ textarea {
           <option>⭐⭐⭐⭐</option>
           <option>⭐⭐⭐⭐⭐</option>
         </select>
-
       </div>
 
       <div class="rating-row">
-
-        <label>
-          How difficult was the actual game?
-        </label>
+        <label>How difficult was the actual game?</label>
 
         <select id="difficultyRating">
           <option value="">Choose one</option>
@@ -1051,14 +1064,10 @@ textarea {
           <option>⭐⭐⭐⭐</option>
           <option>⭐⭐⭐⭐⭐</option>
         </select>
-
       </div>
 
       <div class="rating-row">
-
-        <label>
-          Would you willingly play this again?
-        </label>
+        <label>Would you willingly play this again?</label>
 
         <select id="playAgain">
           <option value="">Choose one</option>
@@ -1066,7 +1075,6 @@ textarea {
           <option>Maybe</option>
           <option>I have suffered enough</option>
         </select>
-
       </div>
 
       <div class="rating-row">
@@ -1128,15 +1136,8 @@ textarea {
             <div class="card-content">
 
               <div class="card-topline">
-
-                <span>
-                  FAWYL // ORIGINAL TESTER
-                </span>
-
-                <span>
-                  05 / 09
-                </span>
-
+                <span>FAWYL // ORIGINAL TESTER</span>
+                <span>05 / 09</span>
               </div>
 
               <div class="card-rule"></div>
@@ -1168,7 +1169,7 @@ textarea {
               </div>
 
               <div class="card-value">
-                Hands Were Technically Involved
+                Precision Was Never An Option
               </div>
 
               <div class="flip-hint">
@@ -1184,23 +1185,13 @@ textarea {
             <div class="card-content">
 
               <div class="card-topline">
-
-                <span>
-                  FAIL AT WHAT YOU LOVE
-                </span>
-
-                <span>
-                  SEASON 1
-                </span>
-
+                <span>FAIL AT WHAT YOU LOVE</span>
+                <span>SEASON 1</span>
               </div>
 
               <div class="card-rule"></div>
 
-              <div
-                class="chrome-title"
-                style="font-size:2.1rem;"
-              >
+              <div class="chrome-title" style="font-size:2.1rem;">
                 FOAM FINGER<br>PUZZLE
               </div>
 
@@ -1219,7 +1210,7 @@ textarea {
               </div>
 
               <div class="card-value">
-                Complete a puzzle while an enormous fake hand makes everything unnecessarily difficult.
+                Solve the puzzle while a giant foam finger keeps shoving the board around.
               </div>
 
               <div class="card-label">
@@ -1227,11 +1218,11 @@ textarea {
               </div>
 
               <div class="meter">
-                ████░
+                █████
               </div>
 
               <div class="card-label">
-                Chance of yelling at a foam finger
+                Chance of blaming the finger
               </div>
 
               <div class="meter">
@@ -1290,16 +1281,14 @@ textarea {
     LOVE THE THING.
   </h3>
 
-  <p>
-    — FAWYL
-  </p>
+  <p>— FAWYL</p>
 
 </footer>
 
 <script>
 
 /* =========================
-   SCRATCH CARD
+   SCRATCH
 ========================= */
 
 const scratchCanvas =
@@ -1415,72 +1404,58 @@ function scratch(x,y) {
   hasScratched = true;
 }
 
-scratchCanvas.addEventListener(
-  "pointerdown",
-  e => {
+scratchCanvas.addEventListener("pointerdown", e => {
 
-    scratching = true;
+  scratching = true;
 
-    scratchCanvas.setPointerCapture(
+  scratchCanvas.setPointerCapture(
+    e.pointerId
+  );
+
+  scratch(
+    e.clientX,
+    e.clientY
+  );
+
+});
+
+scratchCanvas.addEventListener("pointermove", e => {
+
+  if (!scratching) return;
+
+  scratch(
+    e.clientX,
+    e.clientY
+  );
+
+});
+
+scratchCanvas.addEventListener("pointerup", e => {
+
+  scratching = false;
+
+  if (
+    scratchCanvas.hasPointerCapture(
+      e.pointerId
+    )
+  ) {
+    scratchCanvas.releasePointerCapture(
       e.pointerId
     );
+  }
 
-    scratch(
-      e.clientX,
-      e.clientY
-    );
+  if (hasScratched) {
+
+    setTimeout(() => {
+
+      scratchCanvas.style.display =
+        "none";
+
+    },250);
 
   }
-);
 
-scratchCanvas.addEventListener(
-  "pointermove",
-  e => {
-
-    if (!scratching) return;
-
-    scratch(
-      e.clientX,
-      e.clientY
-    );
-
-  }
-);
-
-scratchCanvas.addEventListener(
-  "pointerup",
-  e => {
-
-    scratching = false;
-
-    if (
-      scratchCanvas.hasPointerCapture(
-        e.pointerId
-      )
-    ) {
-
-      scratchCanvas.releasePointerCapture(
-        e.pointerId
-      );
-
-    }
-
-    if (hasScratched) {
-
-      setTimeout(
-        () => {
-
-          scratchCanvas.style.display =
-            "none";
-
-        },
-        250
-      );
-
-    }
-
-  }
-);
+});
 
 
 /* =========================
@@ -1489,43 +1464,32 @@ scratchCanvas.addEventListener(
 
 document
   .getElementById("openGameBtn")
-  .addEventListener(
-    "click",
-    () => {
+  .addEventListener("click", () => {
 
-      scratchCanvas.style.display =
-        "none";
+    scratchCanvas.style.display =
+      "none";
 
-      const game =
-        document.getElementById(
-          "game"
-        );
+    const game =
+      document.getElementById("game");
 
-      game.style.display =
-        "flex";
+    game.style.display =
+      "flex";
 
-      game.scrollIntoView({
-        behavior:"smooth"
-      });
+    game.scrollIntoView({
+      behavior:"smooth"
+    });
 
-    }
-  );
+  });
 
 
 /* =========================
-   FOAM FINGER PUZZLE
+   PUZZLE
 ========================= */
 
 const solution = [
-  "⚡",
-  "★",
-  "♥️",
-  "☻",
-  "✦",
-  "☁️",
-  "♠️",
-  "☂️",
-  "✓"
+  "⚡","★","♥️",
+  "☻","✦","☁️",
+  "♠️","☂️","✓"
 ];
 
 let pieces = [];
@@ -1536,39 +1500,25 @@ let gameRunning = false;
 let timerInterval = null;
 
 const puzzleGrid =
-  document.getElementById(
-    "puzzleGrid"
-  );
+  document.getElementById("puzzleGrid");
 
 const startGameBtn =
-  document.getElementById(
-    "startGameBtn"
-  );
+  document.getElementById("startGameBtn");
 
 const movesDisplay =
-  document.getElementById(
-    "moves"
-  );
+  document.getElementById("moves");
 
 const timerDisplay =
-  document.getElementById(
-    "timer"
-  );
+  document.getElementById("timer");
 
 const foamFinger =
-  document.getElementById(
-    "foamFinger"
-  );
+  document.getElementById("foamFinger");
 
 const gameMessage =
-  document.getElementById(
-    "gameMessage"
-  );
+  document.getElementById("gameMessage");
 
 const resultBox =
-  document.getElementById(
-    "resultBox"
-  );
+  document.getElementById("resultBox");
 
 
 function shuffledPuzzle() {
@@ -1579,10 +1529,7 @@ function shuffledPuzzle() {
 
     shuffled =
       [...solution]
-        .sort(
-          () =>
-            Math.random() - .5
-        );
+        .sort(() => Math.random() - .5);
 
   } while (
     shuffled.join("") ===
@@ -1595,80 +1542,96 @@ function shuffledPuzzle() {
 
 function renderPuzzle() {
 
-  puzzleGrid.innerHTML =
-    "";
+  puzzleGrid.innerHTML = "";
 
-  pieces.forEach(
-    (piece,index) => {
+  pieces.forEach((piece,index) => {
 
-      const tile =
-        document.createElement(
-          "button"
-        );
+    const tile =
+      document.createElement("button");
 
-      tile.className =
-        "puzzle-tile";
+    tile.className =
+      "puzzle-tile";
 
-      tile.textContent =
-        piece;
+    tile.textContent =
+      piece;
 
-      if (
-        selectedIndex ===
-        index
-      ) {
-
-        tile.classList.add(
-          "selected"
-        );
-
-      }
-
-      if (!gameRunning) {
-
-        tile.classList.add(
-          "locked"
-        );
-
-      }
-
-      tile.addEventListener(
-        "click",
-        event => {
-
-          if (!gameRunning) return;
-
-          moveFoamFinger(
-            event,
-            tile
-          );
-
-          handleTileClick(
-            index
-          );
-
-        }
-      );
-
-      puzzleGrid.appendChild(
-        tile
-      );
-
+    if (
+      selectedIndex === index
+    ) {
+      tile.classList.add("selected");
     }
-  );
+
+    tile.addEventListener("click", e => {
+
+      if (!gameRunning) return;
+
+      interfere(index,e.currentTarget);
+
+    });
+
+    puzzleGrid.appendChild(tile);
+
+  });
 
 }
 
 
-function moveFoamFinger(
-  event,
-  tile
-) {
+function interfere(index,tile) {
+
+  moveFoamFinger(tile);
+
+  const roll =
+    Math.random();
+
+  if (roll < .5) {
+
+    shoveTile(index);
+
+    gameMessage.textContent =
+      "WHACK. The foam finger shoved your tile.";
+
+  } else if (roll < .72) {
+
+    slideRow(
+      Math.floor(index / 3)
+    );
+
+    gameMessage.textContent =
+      "WHOOPS. THE FINGER HIT THE WHOLE ROW.";
+
+  } else if (roll < .9) {
+
+    slideColumn(
+      index % 3
+    );
+
+    gameMessage.textContent =
+      "Excellent. The whole column moved for no reason.";
+
+  } else {
+
+    doubleHit();
+
+    gameMessage.textContent =
+      "DOUBLE TAP. Three pieces just lost custody of themselves.";
+
+  }
+
+  renderPuzzle();
+
+  setTimeout(() => {
+
+    handleIntentionalClick(index);
+
+  },220);
+
+}
+
+
+function moveFoamFinger(tile) {
 
   const shell =
-    document
-      .querySelector(
-        ".puzzle-shell"
-      );
+    document.querySelector(".puzzle-shell");
 
   const shellRect =
     shell.getBoundingClientRect();
@@ -1693,21 +1656,160 @@ function moveFoamFinger(
       tileRect.height / 2
     ) + "px";
 
+  foamFinger.classList.remove("slam");
+
+  void foamFinger.offsetWidth;
+
+  foamFinger.classList.add("slam");
+
 }
 
 
-function handleTileClick(index) {
+function shoveTile(index) {
+
+  const neighbors =
+    getNeighbors(index);
+
+  if (!neighbors.length) return;
+
+  const other =
+    neighbors[
+      Math.floor(
+        Math.random() *
+        neighbors.length
+      )
+    ];
+
+  swapPieces(
+    index,
+    other
+  );
+
+}
+
+
+function getNeighbors(index) {
+
+  const row =
+    Math.floor(index / 3);
+
+  const col =
+    index % 3;
+
+  const neighbors = [];
+
+  if (row > 0)
+    neighbors.push(index - 3);
+
+  if (row < 2)
+    neighbors.push(index + 3);
+
+  if (col > 0)
+    neighbors.push(index - 1);
+
+  if (col < 2)
+    neighbors.push(index + 1);
+
+  return neighbors;
+}
+
+
+function slideRow(row) {
+
+  const start =
+    row * 3;
+
+  const first =
+    pieces[start];
+
+  pieces[start] =
+    pieces[start + 1];
+
+  pieces[start + 1] =
+    pieces[start + 2];
+
+  pieces[start + 2] =
+    first;
+
+}
+
+
+function slideColumn(col) {
+
+  const first =
+    pieces[col];
+
+  pieces[col] =
+    pieces[col + 3];
+
+  pieces[col + 3] =
+    pieces[col + 6];
+
+  pieces[col + 6] =
+    first;
+
+}
+
+
+function doubleHit() {
+
+  const indexes = [];
+
+  while (indexes.length < 3) {
+
+    const random =
+      Math.floor(
+        Math.random() * 9
+      );
+
+    if (!indexes.includes(random)) {
+      indexes.push(random);
+    }
+
+  }
+
+  const temp =
+    pieces[indexes[0]];
+
+  pieces[indexes[0]] =
+    pieces[indexes[1]];
+
+  pieces[indexes[1]] =
+    pieces[indexes[2]];
+
+  pieces[indexes[2]] =
+    temp;
+
+}
+
+
+function swapPieces(a,b) {
+
+  const temp =
+    pieces[a];
+
+  pieces[a] =
+    pieces[b];
+
+  pieces[b] =
+    temp;
+
+}
+
+
+function handleIntentionalClick(index) {
+
+  if (!gameRunning) return;
 
   if (
-    selectedIndex ===
-    null
+    selectedIndex === null
   ) {
 
     selectedIndex =
       index;
 
-    gameMessage.textContent =
-      "Great. Now pick another tile. Yes, the giant finger is staying.";
+    gameMessage.textContent +=
+      " Now pick the tile you actually wanted to swap with.";
 
     renderPuzzle();
 
@@ -1716,15 +1818,14 @@ function handleTileClick(index) {
   }
 
   if (
-    selectedIndex ===
-    index
+    selectedIndex === index
   ) {
 
     selectedIndex =
       null;
 
     gameMessage.textContent =
-      "Changed your mind. Understandable.";
+      "Changed your mind. Honestly, fair.";
 
     renderPuzzle();
 
@@ -1732,18 +1833,10 @@ function handleTileClick(index) {
 
   }
 
-  const first =
-    pieces[
-      selectedIndex
-    ];
-
-  pieces[
-    selectedIndex
-  ] =
-    pieces[index];
-
-  pieces[index] =
-    first;
+  swapPieces(
+    selectedIndex,
+    index
+  );
 
   moves++;
 
@@ -1752,23 +1845,6 @@ function handleTileClick(index) {
 
   selectedIndex =
     null;
-
-  const messages = [
-    "Two tiles swapped. Progress allegedly occurred.",
-    "Excellent. Probably.",
-    "The foam finger remains deeply unhelpful.",
-    "Fine motor control is a luxury.",
-    "Something moved. Let's call that progress.",
-    "Sports equipment was never meant for this."
-  ];
-
-  gameMessage.textContent =
-    messages[
-      Math.floor(
-        Math.random() *
-        messages.length
-      )
-    ];
 
   renderPuzzle();
 
@@ -1782,78 +1858,67 @@ function checkSolved() {
   const solved =
     pieces.every(
       (piece,index) =>
-        piece ===
-        solution[index]
+        piece === solution[index]
     );
 
   if (solved) {
-
     finishGame(true);
-
   }
 
 }
 
 
-startGameBtn.addEventListener(
-  "click",
-  () => {
+startGameBtn.addEventListener("click", () => {
 
-    if (gameRunning) return;
+  if (gameRunning) return;
 
-    pieces =
-      shuffledPuzzle();
+  pieces =
+    shuffledPuzzle();
 
-    moves = 0;
+  moves =
+    0;
 
-    selectedIndex =
-      null;
+  selectedIndex =
+    null;
 
-    timeLeft = 90;
+  timeLeft =
+    90;
 
-    movesDisplay.textContent =
-      "0";
+  movesDisplay.textContent =
+    "0";
 
-    timerDisplay.textContent =
-      "90";
+  timerDisplay.textContent =
+    "90";
 
-    gameRunning =
-      true;
+  gameRunning =
+    true;
 
-    startGameBtn.disabled =
-      true;
+  startGameBtn.disabled =
+    true;
 
-    startGameBtn.textContent =
-      "FOAM FINGER ENGAGED";
+  startGameBtn.textContent =
+    "FOAM FINGER ENGAGED";
 
-    gameMessage.textContent =
-      "Go. The clock is running and your hand is enormous.";
+  gameMessage.textContent =
+    "Go. Every click is now a negotiation.";
 
-    renderPuzzle();
+  renderPuzzle();
 
-    timerInterval =
-      setInterval(
-        () => {
+  timerInterval =
+    setInterval(() => {
 
-          timeLeft--;
+      timeLeft--;
 
-          timerDisplay.textContent =
-            timeLeft;
+      timerDisplay.textContent =
+        timeLeft;
 
-          if (
-            timeLeft <= 0
-          ) {
+      if (timeLeft <= 0) {
+        finishGame(false);
+      }
 
-            finishGame(false);
+    },1000);
 
-          }
-
-        },
-        1000
-      );
-
-  }
-);
+});
 
 
 function finishGame(solved) {
@@ -1867,11 +1932,6 @@ function finishGame(solved) {
     timerInterval
   );
 
-  selectedIndex =
-    null;
-
-  renderPuzzle();
-
   foamFinger.style.display =
     "none";
 
@@ -1879,38 +1939,26 @@ function finishGame(solved) {
     "block";
 
   document
-    .getElementById(
-      "resultMoves"
-    )
+    .getElementById("resultMoves")
     .textContent =
     moves;
 
   document
-    .getElementById(
-      "resultTime"
-    )
+    .getElementById("resultTime")
     .textContent =
     Math.max(
       0,
       timeLeft
     );
 
-
   const status =
-    document.getElementById(
-      "resultStatus"
-    );
+    document.getElementById("resultStatus");
 
   const title =
-    document.getElementById(
-      "resultTitle"
-    );
+    document.getElementById("resultTitle");
 
   const verdict =
-    document.getElementById(
-      "verdict"
-    );
-
+    document.getElementById("verdict");
 
   if (solved) {
 
@@ -1920,24 +1968,8 @@ function finishGame(solved) {
     status.textContent =
       "SOLVED";
 
-    if (moves <= 12) {
-
-      verdict.textContent =
-        "FINAL VERDICT: DISTURBINGLY COMPETENT.";
-
-    } else if (
-      moves <= 22
-    ) {
-
-      verdict.textContent =
-        "FINAL VERDICT: FINE MOTOR SKILLS SURVIVED.";
-
-    } else {
-
-      verdict.textContent =
-        "FINAL VERDICT: IT TOOK A WHILE, BUT THE FOAM FINGER LOST.";
-
-    }
+    verdict.textContent =
+      "FINAL VERDICT: YOU DEFEATED A GIANT FAKE HAND.";
 
   } else {
 
@@ -1948,13 +1980,9 @@ function finishGame(solved) {
       "MANGLED";
 
     verdict.textContent =
-      "FINAL VERDICT: THE FOAM FINGER WON.";
+      "FINAL VERDICT: THE FOAM FINGER WON CUSTODY OF THE BOARD.";
 
   }
-
-
-  gameMessage.textContent =
-    "Hands were technically involved.";
 
   resultBox.scrollIntoView({
     behavior:"smooth",
@@ -1969,136 +1997,105 @@ function finishGame(solved) {
 ========================= */
 
 document
-  .getElementById(
-    "feedbackBtn"
-  )
-  .addEventListener(
-    "click",
-    () => {
+  .getElementById("feedbackBtn")
+  .addEventListener("click", () => {
 
-      const feedback =
-        document.getElementById(
-          "feedback"
-        );
+    const feedback =
+      document.getElementById("feedback");
 
-      feedback.style.display =
-        "flex";
+    feedback.style.display =
+      "flex";
 
-      feedback.scrollIntoView({
-        behavior:"smooth"
-      });
+    feedback.scrollIntoView({
+      behavior:"smooth"
+    });
 
-    }
-  );
+  });
 
 
 document
-  .getElementById(
-    "submitFeedback"
-  )
-  .addEventListener(
-    "click",
-    () => {
+  .getElementById("submitFeedback")
+  .addEventListener("click", () => {
 
-      const feedbackData = {
+    const feedbackData = {
 
-        tester:"CoCo",
+      tester:"CoCo",
+      game:"Foam Finger Puzzle",
+      moves:moves,
 
-        game:"Foam Finger Puzzle",
+      fun:
+        document
+          .getElementById("funRating")
+          .value,
 
-        moves:moves,
+      rules:
+        document
+          .getElementById("rulesRating")
+          .value,
 
-        fun:
-          document
-            .getElementById(
-              "funRating"
-            ).value,
+      difficulty:
+        document
+          .getElementById("difficultyRating")
+          .value,
 
-        rules:
-          document
-            .getElementById(
-              "rulesRating"
-            ).value,
+      playAgain:
+        document
+          .getElementById("playAgain")
+          .value,
 
-        difficulty:
-          document
-            .getElementById(
-              "difficultyRating"
-            ).value,
+      confused:
+        document
+          .getElementById("confused")
+          .value,
 
-        playAgain:
-          document
-            .getElementById(
-              "playAgain"
-            ).value,
+      favorite:
+        document
+          .getElementById("favorite")
+          .value,
 
-        confused:
-          document
-            .getElementById(
-              "confused"
-            ).value,
+      change:
+        document
+          .getElementById("change")
+          .value,
 
-        favorite:
-          document
-            .getElementById(
-              "favorite"
-            ).value,
+      broken:
+        document
+          .getElementById("broken")
+          .value
 
-        change:
-          document
-            .getElementById(
-              "change"
-            ).value,
+    };
 
-        broken:
-          document
-            .getElementById(
-              "broken"
-            ).value
+    localStorage.setItem(
+      "fawylCoCoFeedback",
+      JSON.stringify(
+        feedbackData
+      )
+    );
 
-      };
+    const collector =
+      document.getElementById("collector");
 
-      localStorage.setItem(
-        "fawylCoCoFeedback",
-        JSON.stringify(
-          feedbackData
-        )
-      );
+    collector.style.display =
+      "flex";
 
-      const collector =
-        document.getElementById(
-          "collector"
-        );
+    collector.scrollIntoView({
+      behavior:"smooth"
+    });
 
-      collector.style.display =
-        "flex";
-
-      collector.scrollIntoView({
-        behavior:"smooth"
-      });
-
-    }
-  );
+  });
 
 
 /* =========================
-   COLLECTOR CARD
+   COLLECTOR
 ========================= */
 
 document
-  .getElementById(
-    "collectorCard"
-  )
-  .addEventListener(
-    "click",
-    function() {
+  .getElementById("collectorCard")
+  .addEventListener("click", function() {
 
-      this.classList.toggle(
-        "flipped"
-      );
+    this.classList.toggle("flipped");
 
-    }
-  );
+  });
 
 </script>
 
