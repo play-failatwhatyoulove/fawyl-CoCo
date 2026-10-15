@@ -15,6 +15,7 @@
   --blue:#34d9ff;
   --purple:#824cff;
   --green:#48f0a4;
+  --orange:#ff6f1f;
   --black:#111111;
   --cream:#fffcef;
   --white:#ffffff;
@@ -175,7 +176,7 @@ h3 {
   margin:8px 0;
 }
 
-/* SCRATCH */
+/* SCRATCH CARD */
 
 .scratch-wrap {
   max-width:680px;
@@ -244,7 +245,7 @@ h3 {
   justify-content:space-between;
   gap:12px;
   flex-wrap:wrap;
-  margin-bottom:20px;
+  margin-bottom:18px;
 }
 
 .stat-box {
@@ -259,129 +260,137 @@ h3 {
   font-size:1.5rem;
 }
 
-.interference {
+.event-box {
   border:3px solid var(--black);
   border-radius:16px;
-  padding:14px 18px;
-  background:var(--pink);
-  font-weight:900;
-  margin-bottom:20px;
-  text-align:center;
-}
-
-.preview-wrap {
-  margin:20px 0;
-  padding:18px;
-  border:3px solid var(--black);
-  border-radius:18px;
-  background:var(--cream);
-}
-
-.preview-grid,
-.puzzle-grid {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-}
-
-.preview-grid {
-  max-width:260px;
-  margin:15px auto 0;
-}
-
-.preview-tile {
-  aspect-ratio:1/1;
-  border:2px solid var(--black);
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:2rem;
-  background:white;
-}
-
-.puzzle-shell {
-  position:relative;
-  max-width:520px;
-  margin:25px auto;
-}
-
-.puzzle-grid {
-  position:relative;
-  z-index:2;
-}
-
-.puzzle-tile {
-  aspect-ratio:1/1;
-  border:4px solid var(--black);
-  border-radius:16px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:clamp(2.3rem,8vw,4rem);
-  background:white;
-  box-shadow:4px 4px 0 var(--black);
-  transition:
-    transform .18s ease,
-    background .12s ease;
-  user-select:none;
-}
-
-.puzzle-tile:hover {
+  padding:15px;
   background:var(--blue);
+  text-align:center;
+  font-weight:900;
+  min-height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.puzzle-tile.selected {
-  background:var(--yellow);
-  transform:scale(.94);
+.balloon-arena {
+  position:relative;
+  height:480px;
+  margin-top:20px;
+  border:4px solid var(--black);
+  border-radius:22px;
+  overflow:hidden;
+  background:
+    linear-gradient(
+      to bottom,
+      #c9f5ff 0%,
+      #dffaff 72%,
+      #8bd66c 72%,
+      #72bb57 100%
+    );
+  touch-action:none;
 }
 
-.puzzle-tile.bumped {
-  animation:bump .3s ease;
-}
-
-@keyframes bump {
-  0% { transform:translate(0,0) rotate(0); }
-  35% { transform:translate(10px,-8px) rotate(8deg); }
-  70% { transform:translate(-6px,5px) rotate(-5deg); }
-  100% { transform:translate(0,0) rotate(0); }
-}
-
-.foam-finger {
+.cloud {
   position:absolute;
-  z-index:6;
-  font-size:7rem;
+  font-size:3rem;
+  opacity:.55;
   pointer-events:none;
-  transform:translate(-25%,-55%) rotate(-18deg);
-  filter:drop-shadow(5px 5px 0 #111);
-  display:none;
 }
 
-.foam-finger.slam {
-  animation:fingerSlam .32s ease;
+.cloud.one {
+  top:35px;
+  left:50px;
 }
 
-@keyframes fingerSlam {
-  0% {
-    transform:translate(-25%,-95%) rotate(-18deg) scale(1.2);
+.cloud.two {
+  top:90px;
+  right:70px;
+}
+
+.floor-line {
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:12px;
+  background:var(--black);
+}
+
+.balloon {
+  position:absolute;
+  width:82px;
+  height:100px;
+  border:4px solid var(--black);
+  border-radius:50% 50% 48% 48%;
+  background:
+    radial-gradient(circle at 30% 25%,#ffffff 0 6%,var(--pink) 7% 100%);
+  box-shadow:5px 6px 0 rgba(0,0,0,.2);
+  transform:translate(-50%,-50%);
+  user-select:none;
+  touch-action:none;
+  z-index:5;
+}
+
+.balloon::after {
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:-19px;
+  width:3px;
+  height:22px;
+  background:var(--black);
+  transform:translateX(-50%);
+}
+
+.balloon::before {
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:-9px;
+  transform:translateX(-50%);
+  width:0;
+  height:0;
+  border-left:8px solid transparent;
+  border-right:8px solid transparent;
+  border-top:12px solid var(--pink);
+}
+
+.balloon.blue {
+  background:
+    radial-gradient(circle at 30% 25%,#ffffff 0 6%,var(--blue) 7% 100%);
+}
+
+.balloon.blue::before {
+  border-top-color:var(--blue);
+}
+
+.balloon.tiny {
+  width:50px;
+  height:62px;
+}
+
+.balloon.panic {
+  animation:panicPulse .25s infinite alternate;
+}
+
+@keyframes panicPulse {
+  from {
+    transform:translate(-50%,-50%) scale(1);
   }
 
-  70% {
-    transform:translate(-25%,-45%) rotate(-18deg) scale(.95);
-  }
-
-  100% {
-    transform:translate(-25%,-55%) rotate(-18deg) scale(1);
+  to {
+    transform:translate(-50%,-50%) scale(1.07);
   }
 }
 
 .game-message {
-  min-height:55px;
+  min-height:50px;
   padding:12px;
   margin-top:18px;
   border:3px solid var(--black);
   border-radius:14px;
-  background:var(--blue);
+  background:var(--yellow);
   font-weight:900;
   text-align:center;
 }
@@ -446,7 +455,7 @@ textarea {
   margin-top:8px;
 }
 
-/* CHROME CARD */
+/* COLLECTOR CARD */
 
 .collector-section {
   display:none;
@@ -689,6 +698,7 @@ textarea {
 }
 
 @media(max-width:700px) {
+
   .card {
     padding:28px 22px;
     border-radius:20px;
@@ -704,8 +714,8 @@ textarea {
     padding:45px 14px;
   }
 
-  .foam-finger {
-    font-size:5.5rem;
+  .balloon-arena {
+    height:420px;
   }
 }
 </style>
@@ -801,6 +811,7 @@ textarea {
 
       <div class="status">
         <strong>CURRENT STATUS:</strong>
+
         <p>🚗 Creator currently defeated by transportation.</p>
         <p>📦 Merch safe.</p>
         <p>❤️ CoCo absolutely not forgotten.</p>
@@ -849,7 +860,7 @@ textarea {
             </p>
 
             <h2>
-              FOAM FINGER<br>PUZZLE
+              BALLOON BALANCE<br>CHALLENGE
             </h2>
 
             <p>
@@ -886,26 +897,26 @@ textarea {
       </span>
 
       <h2>
-        FOAM FINGER PUZZLE
+        BALLOON BALANCE CHALLENGE
       </h2>
 
       <p class="big-copy">
-        It's a tiny puzzle.
+        Keep the balloon off the floor.
       </p>
 
       <h3>
-        Unfortunately, your hand has been replaced by sports merchandise with poor impulse control.
+        That's it. Surely nothing else will happen.
       </h3>
 
       <div class="status">
 
         <strong>HOW THIS WORKS</strong>
 
-        <p>🧩 Match the puzzle to the preview.</p>
-        <p>👆 Tap one tile, then another tile to swap them.</p>
-        <p>💥 Every tap lets the foam finger interfere first.</p>
-        <p>↔️ It may shove a tile, slide a row, slide a column, or hit multiple pieces.</p>
-        <p>⏱️ You have 90 seconds.</p>
+        <p>🎈 Tap or click the balloon to bop it upward.</p>
+        <p>⏱️ Survive for 45 seconds.</p>
+        <p>🌪️ Random nonsense will happen as you go.</p>
+        <p>💀 If the balloon hits the floor, the run is over.</p>
+        <p>🏆 More bops = more unnecessary bragging rights.</p>
 
       </div>
 
@@ -915,88 +926,66 @@ textarea {
 
           <div class="stat-box">
             TIME:
-            <span id="timer">90</span>
+            <span id="timer">45</span>
           </div>
 
           <div class="stat-box">
-            MOVES:
-            <span id="moves">0</span>
+            BOPS:
+            <span id="bops">0</span>
           </div>
 
         </div>
 
-        <div class="interference">
-          FOAM FINGER INTERFERENCE: ON<br>
-          <span class="small">Precision has been discontinued.</span>
-        </div>
-
-        <div class="preview-wrap">
-
-          <strong>
-            THIS IS WHAT IT'S SUPPOSED TO LOOK LIKE:
-          </strong>
-
-          <div class="preview-grid">
-            <div class="preview-tile">⚡</div>
-            <div class="preview-tile">★</div>
-            <div class="preview-tile">♥️</div>
-
-            <div class="preview-tile">☻</div>
-            <div class="preview-tile">✦</div>
-            <div class="preview-tile">☁️</div>
-
-            <div class="preview-tile">♠️</div>
-            <div class="preview-tile">☂️</div>
-            <div class="preview-tile">✓</div>
-          </div>
-
+        <div class="event-box" id="eventBox">
+          EVENT: Nothing terrible yet.
         </div>
 
         <button class="btn blue" id="startGameBtn">
-          PUT ON THE FOAM FINGER →
+          RELEASE THE BALLOON →
         </button>
 
-        <div class="puzzle-shell">
+        <div class="balloon-arena" id="balloonArena">
 
-          <div class="foam-finger" id="foamFinger">
-            ☝️
-          </div>
+          <div class="cloud one">☁️</div>
+          <div class="cloud two">☁️</div>
 
-          <div class="puzzle-grid" id="puzzleGrid"></div>
+          <div class="balloon" id="balloon"></div>
+
+          <div class="floor-line"></div>
 
         </div>
 
         <div class="game-message" id="gameMessage">
-          Hit start when you're ready for the puzzle to become personally hostile.
+          Hit start when you're ready to argue with gravity.
         </div>
 
         <div class="result-box" id="resultBox">
 
           <h2 id="resultTitle">
-            PUZZLE COMPLETE.
+            YOU SURVIVED.
           </h2>
 
           <div class="result-grid">
 
             <div class="result-stat">
-              <strong id="resultMoves">0</strong>
-              MOVES
+              <strong id="resultSeconds">0</strong>
+              SECONDS
             </div>
 
             <div class="result-stat">
-              <strong id="resultTime">0</strong>
-              SECONDS LEFT
+              <strong id="resultBops">0</strong>
+              BOPS
             </div>
 
             <div class="result-stat">
-              <strong id="resultStatus">?</strong>
-              STATUS
+              <strong id="resultDrops">0</strong>
+              DROPS
             </div>
 
           </div>
 
           <h3 id="verdict">
-            Fine motor skills have left the chat.
+            Gravity has filed a complaint.
           </h3>
 
           <button class="btn" id="feedbackBtn">
@@ -1015,20 +1004,27 @@ textarea {
   <div class="container">
     <div class="card">
 
-      <span class="badge">Tester Check-In</span>
+      <span class="badge">
+        Tester Check-In
+      </span>
 
-      <h2>WELL.</h2>
+      <h2>
+        WELL.
+      </h2>
 
       <p class="big-copy">
-        You tried to solve a puzzle while a foam finger actively sabotaged you.
+        You fought gravity.
       </p>
 
       <p>
-        Which feels much more reasonable somehow.
+        Results were documented.
       </p>
 
       <div class="rating-row">
-        <label>How fun was it?</label>
+
+        <label>
+          How fun was it?
+        </label>
 
         <select id="funRating">
           <option value="">Choose one</option>
@@ -1038,10 +1034,14 @@ textarea {
           <option>⭐⭐⭐⭐</option>
           <option>⭐⭐⭐⭐⭐</option>
         </select>
+
       </div>
 
       <div class="rating-row">
-        <label>How easy were the rules to understand?</label>
+
+        <label>
+          How easy were the rules to understand?
+        </label>
 
         <select id="rulesRating">
           <option value="">Choose one</option>
@@ -1051,10 +1051,14 @@ textarea {
           <option>⭐⭐⭐⭐</option>
           <option>⭐⭐⭐⭐⭐</option>
         </select>
+
       </div>
 
       <div class="rating-row">
-        <label>How difficult was the actual game?</label>
+
+        <label>
+          How difficult was the actual game?
+        </label>
 
         <select id="difficultyRating">
           <option value="">Choose one</option>
@@ -1064,10 +1068,14 @@ textarea {
           <option>⭐⭐⭐⭐</option>
           <option>⭐⭐⭐⭐⭐</option>
         </select>
+
       </div>
 
       <div class="rating-row">
-        <label>Would you willingly play this again?</label>
+
+        <label>
+          Would you willingly play this again?
+        </label>
 
         <select id="playAgain">
           <option value="">Choose one</option>
@@ -1075,6 +1083,7 @@ textarea {
           <option>Maybe</option>
           <option>I have suffered enough</option>
         </select>
+
       </div>
 
       <div class="rating-row">
@@ -1147,7 +1156,7 @@ textarea {
               </div>
 
               <div class="chrome-subtitle">
-                Foam Finger Puzzle
+                Balloon Balance Challenge
               </div>
 
               <div class="tester-stamp">
@@ -1169,7 +1178,7 @@ textarea {
               </div>
 
               <div class="card-value">
-                Precision Was Never An Option
+                Gravity Was Asked To Leave
               </div>
 
               <div class="flip-hint">
@@ -1191,8 +1200,11 @@ textarea {
 
               <div class="card-rule"></div>
 
-              <div class="chrome-title" style="font-size:2.1rem;">
-                FOAM FINGER<br>PUZZLE
+              <div
+                class="chrome-title"
+                style="font-size:1.95rem;"
+              >
+                BALLOON BALANCE<br>CHALLENGE
               </div>
 
               <div class="card-rule"></div>
@@ -1210,7 +1222,7 @@ textarea {
               </div>
 
               <div class="card-value">
-                Solve the puzzle while a giant foam finger keeps shoving the board around.
+                Keep the balloon alive while gravity and several unnecessary complications interfere.
               </div>
 
               <div class="card-label">
@@ -1218,11 +1230,11 @@ textarea {
               </div>
 
               <div class="meter">
-                █████
+                ████░
               </div>
 
               <div class="card-label">
-                Chance of blaming the finger
+                Chance of yelling at gravity
               </div>
 
               <div class="meter">
@@ -1288,7 +1300,7 @@ textarea {
 <script>
 
 /* =========================
-   SCRATCH
+   SCRATCH CARD
 ========================= */
 
 const scratchCanvas =
@@ -1404,58 +1416,70 @@ function scratch(x,y) {
   hasScratched = true;
 }
 
-scratchCanvas.addEventListener("pointerdown", e => {
+scratchCanvas.addEventListener(
+  "pointerdown",
+  e => {
 
-  scratching = true;
+    scratching = true;
 
-  scratchCanvas.setPointerCapture(
-    e.pointerId
-  );
-
-  scratch(
-    e.clientX,
-    e.clientY
-  );
-
-});
-
-scratchCanvas.addEventListener("pointermove", e => {
-
-  if (!scratching) return;
-
-  scratch(
-    e.clientX,
-    e.clientY
-  );
-
-});
-
-scratchCanvas.addEventListener("pointerup", e => {
-
-  scratching = false;
-
-  if (
-    scratchCanvas.hasPointerCapture(
-      e.pointerId
-    )
-  ) {
-    scratchCanvas.releasePointerCapture(
+    scratchCanvas.setPointerCapture(
       e.pointerId
     );
-  }
 
-  if (hasScratched) {
-
-    setTimeout(() => {
-
-      scratchCanvas.style.display =
-        "none";
-
-    },250);
+    scratch(
+      e.clientX,
+      e.clientY
+    );
 
   }
+);
 
-});
+scratchCanvas.addEventListener(
+  "pointermove",
+  e => {
+
+    if (!scratching) return;
+
+    scratch(
+      e.clientX,
+      e.clientY
+    );
+
+  }
+);
+
+scratchCanvas.addEventListener(
+  "pointerup",
+  e => {
+
+    scratching = false;
+
+    if (
+      scratchCanvas.hasPointerCapture(
+        e.pointerId
+      )
+    ) {
+      scratchCanvas.releasePointerCapture(
+        e.pointerId
+      );
+    }
+
+    if (hasScratched) {
+
+      setTimeout(
+        () => {
+
+          scratchCanvas.style.display =
+            "none";
+
+        },
+        250
+      );
+
+    }
+
+  }
+);
 
 
 /* =========================
@@ -1464,466 +1488,594 @@ scratchCanvas.addEventListener("pointerup", e => {
 
 document
   .getElementById("openGameBtn")
-  .addEventListener("click", () => {
+  .addEventListener(
+    "click",
+    () => {
 
-    scratchCanvas.style.display =
-      "none";
+      scratchCanvas.style.display =
+        "none";
 
-    const game =
-      document.getElementById("game");
+      const game =
+        document.getElementById(
+          "game"
+        );
 
-    game.style.display =
-      "flex";
+      game.style.display =
+        "flex";
 
-    game.scrollIntoView({
-      behavior:"smooth"
-    });
+      game.scrollIntoView({
+        behavior:"smooth"
+      });
 
-  });
+    }
+  );
 
 
 /* =========================
-   PUZZLE
+   BALLOON GAME
 ========================= */
 
-const solution = [
-  "⚡","★","♥️",
-  "☻","✦","☁️",
-  "♠️","☂️","✓"
-];
-
-let pieces = [];
-let selectedIndex = null;
-let moves = 0;
-let timeLeft = 90;
-let gameRunning = false;
-let timerInterval = null;
-
-const puzzleGrid =
-  document.getElementById("puzzleGrid");
-
-const startGameBtn =
-  document.getElementById("startGameBtn");
-
-const movesDisplay =
-  document.getElementById("moves");
-
-const timerDisplay =
-  document.getElementById("timer");
-
-const foamFinger =
-  document.getElementById("foamFinger");
-
-const gameMessage =
-  document.getElementById("gameMessage");
-
-const resultBox =
-  document.getElementById("resultBox");
-
-
-function shuffledPuzzle() {
-
-  let shuffled;
-
-  do {
-
-    shuffled =
-      [...solution]
-        .sort(() => Math.random() - .5);
-
-  } while (
-    shuffled.join("") ===
-    solution.join("")
+const arena =
+  document.getElementById(
+    "balloonArena"
   );
 
-  return shuffled;
+const balloon =
+  document.getElementById(
+    "balloon"
+  );
+
+const startGameBtn =
+  document.getElementById(
+    "startGameBtn"
+  );
+
+const timerDisplay =
+  document.getElementById(
+    "timer"
+  );
+
+const bopsDisplay =
+  document.getElementById(
+    "bops"
+  );
+
+const eventBox =
+  document.getElementById(
+    "eventBox"
+  );
+
+const gameMessage =
+  document.getElementById(
+    "gameMessage"
+  );
+
+const resultBox =
+  document.getElementById(
+    "resultBox"
+  );
+
+
+let x = 0;
+let y = 0;
+let vx = 0;
+let vy = 0;
+
+let bops = 0;
+let drops = 0;
+let timeLeft = 45;
+let gameRunning = false;
+
+let gravity = .18;
+let speedMultiplier = 1;
+let wind = 0;
+
+let animationFrame = null;
+let timerInterval = null;
+let eventInterval = null;
+
+let arenaWidth = 0;
+let arenaHeight = 0;
+
+let lastTime = 0;
+
+
+/* RESET POSITION */
+
+function resetBalloon() {
+
+  const rect =
+    arena.getBoundingClientRect();
+
+  arenaWidth =
+    rect.width;
+
+  arenaHeight =
+    rect.height;
+
+  x =
+    arenaWidth * .5;
+
+  y =
+    arenaHeight * .38;
+
+  vx =
+    1.1;
+
+  vy =
+    -1.5;
+
+  balloon.style.left =
+    x + "px";
+
+  balloon.style.top =
+    y + "px";
+
 }
 
 
-function renderPuzzle() {
+/* BOP */
 
-  puzzleGrid.innerHTML = "";
+balloon.addEventListener(
+  "pointerdown",
+  e => {
 
-  pieces.forEach((piece,index) => {
+    e.preventDefault();
 
-    const tile =
-      document.createElement("button");
+    if (!gameRunning) return;
 
-    tile.className =
-      "puzzle-tile";
+    bops++;
 
-    tile.textContent =
-      piece;
+    bopsDisplay.textContent =
+      bops;
 
-    if (
-      selectedIndex === index
-    ) {
-      tile.classList.add("selected");
-    }
+    vy =
+      -6.4 * speedMultiplier;
 
-    tile.addEventListener("click", e => {
+    const center =
+      arenaWidth / 2;
 
-      if (!gameRunning) return;
+    const distance =
+      (x - center) /
+      Math.max(center,1);
 
-      interfere(index,e.currentTarget);
-
-    });
-
-    puzzleGrid.appendChild(tile);
-
-  });
-
-}
-
-
-function interfere(index,tile) {
-
-  moveFoamFinger(tile);
-
-  const roll =
-    Math.random();
-
-  if (roll < .5) {
-
-    shoveTile(index);
+    vx +=
+      distance * .7;
 
     gameMessage.textContent =
-      "WHACK. The foam finger shoved your tile.";
+      randomMessage([
+        "BOP.",
+        "Gravity denied.",
+        "Still airborne. Suspicious.",
+        "Excellent balloon management.",
+        "The balloon has been informed of the rules.",
+        "Nice save."
+      ]);
 
-  } else if (roll < .72) {
+  }
+);
 
-    slideRow(
-      Math.floor(index / 3)
-    );
 
-    gameMessage.textContent =
-      "WHOOPS. THE FINGER HIT THE WHOLE ROW.";
+/* GAME LOOP */
 
-  } else if (roll < .9) {
+function gameLoop(timestamp) {
 
-    slideColumn(
-      index % 3
-    );
+  if (!gameRunning) return;
 
-    gameMessage.textContent =
-      "Excellent. The whole column moved for no reason.";
+  if (!lastTime) {
+    lastTime = timestamp;
+  }
 
-  } else {
+  let delta =
+    (timestamp - lastTime) / 16.67;
 
-    doubleHit();
+  delta =
+    Math.min(delta,2);
 
-    gameMessage.textContent =
-      "DOUBLE TAP. Three pieces just lost custody of themselves.";
+  lastTime =
+    timestamp;
+
+  vy +=
+    gravity * delta;
+
+  vx +=
+    wind * .01 * delta;
+
+  x +=
+    vx * delta * speedMultiplier;
+
+  y +=
+    vy * delta * speedMultiplier;
+
+  const balloonWidth =
+    balloon.offsetWidth;
+
+  const balloonHeight =
+    balloon.offsetHeight;
+
+  const halfW =
+    balloonWidth / 2;
+
+  const halfH =
+    balloonHeight / 2;
+
+
+  /* WALL BOUNCES */
+
+  if (x < halfW) {
+
+    x = halfW;
+    vx = Math.abs(vx);
 
   }
 
-  renderPuzzle();
+  if (x > arenaWidth - halfW) {
 
-  setTimeout(() => {
+    x =
+      arenaWidth - halfW;
 
-    handleIntentionalClick(index);
+    vx =
+      -Math.abs(vx);
 
-  },220);
+  }
+
+
+  /* CEILING */
+
+  if (y < halfH) {
+
+    y = halfH;
+
+    vy =
+      Math.abs(vy) * .45;
+
+  }
+
+
+  /* FLOOR */
+
+  if (
+    y + halfH >=
+    arenaHeight - 12
+  ) {
+
+    loseGame();
+    return;
+
+  }
+
+
+  balloon.style.left =
+    x + "px";
+
+  balloon.style.top =
+    y + "px";
+
+  animationFrame =
+    requestAnimationFrame(
+      gameLoop
+    );
 
 }
 
 
-function moveFoamFinger(tile) {
+/* RANDOM EVENT */
 
-  const shell =
-    document.querySelector(".puzzle-shell");
+function triggerEvent() {
 
-  const shellRect =
-    shell.getBoundingClientRect();
+  if (!gameRunning) return;
 
-  const tileRect =
-    tile.getBoundingClientRect();
+  clearEffects();
 
-  foamFinger.style.display =
-    "block";
+  const events = [
+    "heavy",
+    "windLeft",
+    "windRight",
+    "tiny",
+    "slow",
+    "panic"
+  ];
 
-  foamFinger.style.left =
-    (
-      tileRect.left -
-      shellRect.left +
-      tileRect.width / 2
-    ) + "px";
-
-  foamFinger.style.top =
-    (
-      tileRect.top -
-      shellRect.top +
-      tileRect.height / 2
-    ) + "px";
-
-  foamFinger.classList.remove("slam");
-
-  void foamFinger.offsetWidth;
-
-  foamFinger.classList.add("slam");
-
-}
-
-
-function shoveTile(index) {
-
-  const neighbors =
-    getNeighbors(index);
-
-  if (!neighbors.length) return;
-
-  const other =
-    neighbors[
+  const event =
+    events[
       Math.floor(
         Math.random() *
-        neighbors.length
+        events.length
       )
     ];
 
-  swapPieces(
-    index,
-    other
-  );
 
-}
+  if (event === "heavy") {
 
+    gravity = .30;
 
-function getNeighbors(index) {
+    eventBox.textContent =
+      "EVENT: HEAVY BALLOON. Apparently helium has resigned.";
 
-  const row =
-    Math.floor(index / 3);
+    setTimeout(
+      () => {
 
-  const col =
-    index % 3;
+        if (gameRunning) {
+          gravity = .18;
+        }
 
-  const neighbors = [];
-
-  if (row > 0)
-    neighbors.push(index - 3);
-
-  if (row < 2)
-    neighbors.push(index + 3);
-
-  if (col > 0)
-    neighbors.push(index - 1);
-
-  if (col < 2)
-    neighbors.push(index + 1);
-
-  return neighbors;
-}
-
-
-function slideRow(row) {
-
-  const start =
-    row * 3;
-
-  const first =
-    pieces[start];
-
-  pieces[start] =
-    pieces[start + 1];
-
-  pieces[start + 1] =
-    pieces[start + 2];
-
-  pieces[start + 2] =
-    first;
-
-}
-
-
-function slideColumn(col) {
-
-  const first =
-    pieces[col];
-
-  pieces[col] =
-    pieces[col + 3];
-
-  pieces[col + 3] =
-    pieces[col + 6];
-
-  pieces[col + 6] =
-    first;
-
-}
-
-
-function doubleHit() {
-
-  const indexes = [];
-
-  while (indexes.length < 3) {
-
-    const random =
-      Math.floor(
-        Math.random() * 9
-      );
-
-    if (!indexes.includes(random)) {
-      indexes.push(random);
-    }
-
-  }
-
-  const temp =
-    pieces[indexes[0]];
-
-  pieces[indexes[0]] =
-    pieces[indexes[1]];
-
-  pieces[indexes[1]] =
-    pieces[indexes[2]];
-
-  pieces[indexes[2]] =
-    temp;
-
-}
-
-
-function swapPieces(a,b) {
-
-  const temp =
-    pieces[a];
-
-  pieces[a] =
-    pieces[b];
-
-  pieces[b] =
-    temp;
-
-}
-
-
-function handleIntentionalClick(index) {
-
-  if (!gameRunning) return;
-
-  if (
-    selectedIndex === null
-  ) {
-
-    selectedIndex =
-      index;
-
-    gameMessage.textContent +=
-      " Now pick the tile you actually wanted to swap with.";
-
-    renderPuzzle();
-
-    return;
-
-  }
-
-  if (
-    selectedIndex === index
-  ) {
-
-    selectedIndex =
-      null;
-
-    gameMessage.textContent =
-      "Changed your mind. Honestly, fair.";
-
-    renderPuzzle();
-
-    return;
-
-  }
-
-  swapPieces(
-    selectedIndex,
-    index
-  );
-
-  moves++;
-
-  movesDisplay.textContent =
-    moves;
-
-  selectedIndex =
-    null;
-
-  renderPuzzle();
-
-  checkSolved();
-
-}
-
-
-function checkSolved() {
-
-  const solved =
-    pieces.every(
-      (piece,index) =>
-        piece === solution[index]
+      },
+      5000
     );
 
-  if (solved) {
-    finishGame(true);
+  }
+
+
+  if (event === "windLeft") {
+
+    wind = -.9;
+
+    eventBox.textContent =
+      "EVENT: WIND. The atmosphere has chosen left.";
+
+    setTimeout(
+      () => {
+
+        if (gameRunning) {
+          wind = 0;
+        }
+
+      },
+      5000
+    );
+
+  }
+
+
+  if (event === "windRight") {
+
+    wind = .9;
+
+    eventBox.textContent =
+      "EVENT: WIND. Everything is going right now.";
+
+    setTimeout(
+      () => {
+
+        if (gameRunning) {
+          wind = 0;
+        }
+
+      },
+      5000
+    );
+
+  }
+
+
+  if (event === "tiny") {
+
+    balloon.classList.add(
+      "tiny"
+    );
+
+    eventBox.textContent =
+      "EVENT: TINY BALLOON. Good luck clicking that.";
+
+    setTimeout(
+      () => {
+
+        balloon.classList.remove(
+          "tiny"
+        );
+
+      },
+      5000
+    );
+
+  }
+
+
+  if (event === "slow") {
+
+    speedMultiplier =
+      .6;
+
+    eventBox.textContent =
+      "EVENT: SLOW MOTION. Dramatic for absolutely no reason.";
+
+    setTimeout(
+      () => {
+
+        if (gameRunning) {
+          speedMultiplier = 1;
+        }
+
+      },
+      5000
+    );
+
+  }
+
+
+  if (event === "panic") {
+
+    speedMultiplier =
+      1.35;
+
+    balloon.classList.add(
+      "panic"
+    );
+
+    eventBox.textContent =
+      "EVENT: PANIC MODE. The balloon has somewhere to be.";
+
+    setTimeout(
+      () => {
+
+        if (gameRunning) {
+          speedMultiplier = 1;
+        }
+
+        balloon.classList.remove(
+          "panic"
+        );
+
+      },
+      5000
+    );
+
   }
 
 }
 
 
-startGameBtn.addEventListener("click", () => {
+/* CLEAR EFFECTS */
 
-  if (gameRunning) return;
+function clearEffects() {
 
-  pieces =
-    shuffledPuzzle();
+  gravity =
+    .18;
 
-  moves =
+  wind =
     0;
 
-  selectedIndex =
-    null;
+  speedMultiplier =
+    1;
 
-  timeLeft =
-    90;
+  balloon.classList.remove(
+    "tiny",
+    "panic"
+  );
 
-  movesDisplay.textContent =
-    "0";
-
-  timerDisplay.textContent =
-    "90";
-
-  gameRunning =
-    true;
-
-  startGameBtn.disabled =
-    true;
-
-  startGameBtn.textContent =
-    "FOAM FINGER ENGAGED";
-
-  gameMessage.textContent =
-    "Go. Every click is now a negotiation.";
-
-  renderPuzzle();
-
-  timerInterval =
-    setInterval(() => {
-
-      timeLeft--;
-
-      timerDisplay.textContent =
-        timeLeft;
-
-      if (timeLeft <= 0) {
-        finishGame(false);
-      }
-
-    },1000);
-
-});
+}
 
 
-function finishGame(solved) {
+/* START */
+
+startGameBtn.addEventListener(
+  "click",
+  () => {
+
+    if (gameRunning) return;
+
+    gameRunning =
+      true;
+
+    bops =
+      0;
+
+    drops =
+      0;
+
+    timeLeft =
+      45;
+
+    bopsDisplay.textContent =
+      "0";
+
+    timerDisplay.textContent =
+      "45";
+
+    eventBox.textContent =
+      "EVENT: Nothing terrible yet.";
+
+    gameMessage.textContent =
+      "GO. KEEP IT OFF THE FLOOR.";
+
+    startGameBtn.disabled =
+      true;
+
+    startGameBtn.textContent =
+      "BALLOON RELEASED";
+
+    resultBox.style.display =
+      "none";
+
+    clearEffects();
+
+    resetBalloon();
+
+    lastTime =
+      0;
+
+    animationFrame =
+      requestAnimationFrame(
+        gameLoop
+      );
+
+
+    timerInterval =
+      setInterval(
+        () => {
+
+          timeLeft--;
+
+          timerDisplay.textContent =
+            timeLeft;
+
+          if (
+            timeLeft <= 0
+          ) {
+
+            winGame();
+
+          }
+
+        },
+        1000
+      );
+
+
+    setTimeout(
+      () => {
+
+        if (gameRunning) {
+          triggerEvent();
+        }
+
+      },
+      5000
+    );
+
+
+    eventInterval =
+      setInterval(
+        () => {
+
+          triggerEvent();
+
+        },
+        6500
+      );
+
+  }
+);
+
+
+/* WIN */
+
+function winGame() {
 
   if (!gameRunning) return;
+
+  finishGame(true);
+
+}
+
+
+/* LOSE */
+
+function loseGame() {
+
+  if (!gameRunning) return;
+
+  drops =
+    1;
+
+  finishGame(false);
+
+}
+
+
+/* FINISH */
+
+function finishGame(survived) {
 
   gameRunning =
     false;
@@ -1932,57 +2084,108 @@ function finishGame(solved) {
     timerInterval
   );
 
-  foamFinger.style.display =
-    "none";
+  clearInterval(
+    eventInterval
+  );
 
-  resultBox.style.display =
-    "block";
+  cancelAnimationFrame(
+    animationFrame
+  );
 
-  document
-    .getElementById("resultMoves")
-    .textContent =
-    moves;
+  clearEffects();
 
-  document
-    .getElementById("resultTime")
-    .textContent =
+
+  const secondsSurvived =
+    45 -
     Math.max(
       0,
       timeLeft
     );
 
-  const status =
-    document.getElementById("resultStatus");
+
+  document
+    .getElementById(
+      "resultSeconds"
+    )
+    .textContent =
+    secondsSurvived;
+
+
+  document
+    .getElementById(
+      "resultBops"
+    )
+    .textContent =
+    bops;
+
+
+  document
+    .getElementById(
+      "resultDrops"
+    )
+    .textContent =
+    drops;
+
 
   const title =
-    document.getElementById("resultTitle");
+    document.getElementById(
+      "resultTitle"
+    );
 
   const verdict =
-    document.getElementById("verdict");
+    document.getElementById(
+      "verdict"
+    );
 
-  if (solved) {
+
+  if (survived) {
 
     title.textContent =
-      "PUZZLE COMPLETE.";
+      "YOU SURVIVED.";
 
-    status.textContent =
-      "SOLVED";
+    if (bops >= 25) {
 
-    verdict.textContent =
-      "FINAL VERDICT: YOU DEFEATED A GIANT FAKE HAND.";
+      verdict.textContent =
+        "FINAL VERDICT: GRAVITY HAS FILED A FORMAL COMPLAINT.";
+
+    } else if (bops >= 15) {
+
+      verdict.textContent =
+        "FINAL VERDICT: BALLOON ALIVE. DIGNITY MOSTLY INTACT.";
+
+    } else {
+
+      verdict.textContent =
+        "FINAL VERDICT: MINIMAL EFFORT. MAXIMUM AIRBORNE.";
+
+    }
+
+    eventBox.textContent =
+      "EVENT: YOU WON. RUDE.";
 
   } else {
 
     title.textContent =
-      "TIME'S UP.";
-
-    status.textContent =
-      "MANGLED";
+      "THE BALLOON HAS FALLEN.";
 
     verdict.textContent =
-      "FINAL VERDICT: THE FOAM FINGER WON CUSTODY OF THE BOARD.";
+      "FINAL VERDICT: GRAVITY REMAINS UNDEFEATED.";
+
+    eventBox.textContent =
+      "EVENT: FLOOR.";
 
   }
+
+
+  gameMessage.textContent =
+    survived
+      ? "45 seconds. Balloon intact."
+      : "It touched the floor. We all saw it.";
+
+
+  resultBox.style.display =
+    "block";
+
 
   resultBox.scrollIntoView({
     behavior:"smooth",
@@ -1992,110 +2195,152 @@ function finishGame(solved) {
 }
 
 
+/* RANDOM MESSAGE */
+
+function randomMessage(list) {
+
+  return list[
+    Math.floor(
+      Math.random() *
+      list.length
+    )
+  ];
+
+}
+
+
 /* =========================
    FEEDBACK
 ========================= */
 
 document
-  .getElementById("feedbackBtn")
-  .addEventListener("click", () => {
+  .getElementById(
+    "feedbackBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
 
-    const feedback =
-      document.getElementById("feedback");
+      const feedback =
+        document.getElementById(
+          "feedback"
+        );
 
-    feedback.style.display =
-      "flex";
+      feedback.style.display =
+        "flex";
 
-    feedback.scrollIntoView({
-      behavior:"smooth"
-    });
+      feedback.scrollIntoView({
+        behavior:"smooth"
+      });
 
-  });
+    }
+  );
 
 
 document
-  .getElementById("submitFeedback")
-  .addEventListener("click", () => {
+  .getElementById(
+    "submitFeedback"
+  )
+  .addEventListener(
+    "click",
+    () => {
 
-    const feedbackData = {
+      const feedbackData = {
 
-      tester:"CoCo",
-      game:"Foam Finger Puzzle",
-      moves:moves,
+        tester:
+          "CoCo",
 
-      fun:
-        document
-          .getElementById("funRating")
-          .value,
+        game:
+          "Balloon Balance Challenge",
 
-      rules:
-        document
-          .getElementById("rulesRating")
-          .value,
+        bops:
+          bops,
 
-      difficulty:
-        document
-          .getElementById("difficultyRating")
-          .value,
+        fun:
+          document.getElementById(
+            "funRating"
+          ).value,
 
-      playAgain:
-        document
-          .getElementById("playAgain")
-          .value,
+        rules:
+          document.getElementById(
+            "rulesRating"
+          ).value,
 
-      confused:
-        document
-          .getElementById("confused")
-          .value,
+        difficulty:
+          document.getElementById(
+            "difficultyRating"
+          ).value,
 
-      favorite:
-        document
-          .getElementById("favorite")
-          .value,
+        playAgain:
+          document.getElementById(
+            "playAgain"
+          ).value,
 
-      change:
-        document
-          .getElementById("change")
-          .value,
+        confused:
+          document.getElementById(
+            "confused"
+          ).value,
 
-      broken:
-        document
-          .getElementById("broken")
-          .value
+        favorite:
+          document.getElementById(
+            "favorite"
+          ).value,
 
-    };
+        change:
+          document.getElementById(
+            "change"
+          ).value,
 
-    localStorage.setItem(
-      "fawylCoCoFeedback",
-      JSON.stringify(
-        feedbackData
-      )
-    );
+        broken:
+          document.getElementById(
+            "broken"
+          ).value
 
-    const collector =
-      document.getElementById("collector");
+      };
 
-    collector.style.display =
-      "flex";
 
-    collector.scrollIntoView({
-      behavior:"smooth"
-    });
+      localStorage.setItem(
+        "fawylCoCoFeedback",
+        JSON.stringify(
+          feedbackData
+        )
+      );
 
-  });
+
+      const collector =
+        document.getElementById(
+          "collector"
+        );
+
+      collector.style.display =
+        "flex";
+
+      collector.scrollIntoView({
+        behavior:"smooth"
+      });
+
+    }
+  );
 
 
 /* =========================
-   COLLECTOR
+   COLLECTOR CARD
 ========================= */
 
 document
-  .getElementById("collectorCard")
-  .addEventListener("click", function() {
+  .getElementById(
+    "collectorCard"
+  )
+  .addEventListener(
+    "click",
+    function() {
 
-    this.classList.toggle("flipped");
+      this.classList.toggle(
+        "flipped"
+      );
 
-  });
+    }
+  );
 
 </script>
 
