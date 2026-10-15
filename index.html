@@ -1,0 +1,2106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CoCo | FAWYL Original Tester</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@400;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+  --yellow:#ffe600;
+  --pink:#ff3ca6;
+  --blue:#34d9ff;
+  --purple:#824cff;
+  --green:#48f0a4;
+  --black:#111111;
+  --cream:#fffcef;
+  --white:#ffffff;
+}
+
+* {
+  box-sizing:border-box;
+}
+
+html {
+  scroll-behavior:smooth;
+}
+
+body {
+  margin:0;
+  font-family:"Karla",sans-serif;
+  background:
+    radial-gradient(circle at top left,rgba(255,60,166,.25),transparent 35%),
+    radial-gradient(circle at bottom right,rgba(52,217,255,.25),transparent 35%),
+    #101018;
+  color:var(--white);
+}
+
+button,
+input,
+textarea,
+select {
+  font:inherit;
+}
+
+button {
+  cursor:pointer;
+}
+
+.page {
+  min-height:100vh;
+  padding:70px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.container {
+  width:min(900px,100%);
+}
+
+.card {
+  background:var(--cream);
+  color:var(--black);
+  border:4px solid var(--black);
+  border-radius:28px;
+  padding:45px;
+  box-shadow:12px 12px 0 var(--black);
+  position:relative;
+  overflow:hidden;
+}
+
+.badge {
+  display:inline-block;
+  background:var(--yellow);
+  border:3px solid var(--black);
+  border-radius:999px;
+  padding:8px 16px;
+  font-size:.85rem;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:20px;
+}
+
+h1,
+h2,
+h3 {
+  font-family:"Space Grotesk",sans-serif;
+  margin-top:0;
+}
+
+h1 {
+  font-size:clamp(3rem,9vw,6.4rem);
+  line-height:.9;
+  margin-bottom:22px;
+}
+
+h2 {
+  font-size:clamp(2.1rem,6vw,4rem);
+  line-height:1;
+}
+
+h3 {
+  font-size:1.5rem;
+}
+
+.big-copy {
+  font-size:1.3rem;
+  line-height:1.6;
+  max-width:700px;
+}
+
+.small {
+  opacity:.7;
+}
+
+.btn {
+  border:3px solid var(--black);
+  border-radius:15px;
+  background:var(--pink);
+  color:var(--black);
+  padding:15px 22px;
+  font-weight:900;
+  box-shadow:5px 5px 0 var(--black);
+  transition:.15s ease;
+  display:inline-block;
+  text-decoration:none;
+  margin-top:18px;
+}
+
+.btn:hover {
+  transform:translate(3px,3px);
+  box-shadow:2px 2px 0 var(--black);
+}
+
+.btn.blue {
+  background:var(--blue);
+}
+
+.btn.yellow {
+  background:var(--yellow);
+}
+
+.btn.green {
+  background:var(--green);
+}
+
+.merch-grid {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+  margin:30px 0;
+}
+
+.merch {
+  padding:20px;
+  border:3px solid var(--black);
+  border-radius:18px;
+  font-weight:800;
+  background:white;
+}
+
+.status {
+  margin-top:30px;
+  background:var(--black);
+  color:white;
+  border-radius:18px;
+  padding:25px;
+}
+
+.status p {
+  margin:8px 0;
+}
+
+/* SCRATCH */
+
+.scratch-wrap {
+  max-width:680px;
+  margin:30px auto;
+}
+
+.scratch-card {
+  position:relative;
+  width:100%;
+  min-height:330px;
+  border:4px solid var(--black);
+  border-radius:25px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at top left,var(--pink),transparent 50%),
+    linear-gradient(135deg,var(--purple),var(--blue));
+}
+
+.reveal-content {
+  min-height:330px;
+  padding:45px 25px;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  color:white;
+}
+
+.reveal-content h2 {
+  font-size:clamp(2.5rem,8vw,5rem);
+  margin-bottom:10px;
+}
+
+#scratchCanvas {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  touch-action:none;
+  cursor:crosshair;
+  z-index:5;
+}
+
+.scratch-note {
+  text-align:center;
+  font-weight:800;
+  margin-top:12px;
+}
+
+/* GAME */
+
+.game-area {
+  display:none;
+}
+
+.game-panel {
+  border:3px solid var(--black);
+  border-radius:22px;
+  padding:25px;
+  background:white;
+  margin-top:25px;
+}
+
+.game-top {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+.stat-box {
+  border:3px solid var(--black);
+  border-radius:16px;
+  padding:12px 18px;
+  background:var(--yellow);
+  font-weight:900;
+}
+
+.stat-box span {
+  font-size:1.5rem;
+}
+
+.preview-wrap {
+  margin:20px 0;
+  padding:18px;
+  border:3px solid var(--black);
+  border-radius:18px;
+  background:var(--cream);
+}
+
+.preview-grid,
+.puzzle-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.preview-grid {
+  max-width:260px;
+  margin:15px auto 0;
+}
+
+.preview-tile {
+  aspect-ratio:1/1;
+  border:2px solid var(--black);
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:2rem;
+  background:white;
+}
+
+.puzzle-shell {
+  position:relative;
+  max-width:520px;
+  margin:25px auto;
+}
+
+.puzzle-grid {
+  position:relative;
+  z-index:2;
+}
+
+.puzzle-tile {
+  aspect-ratio:1/1;
+  border:4px solid var(--black);
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:clamp(2.3rem,8vw,4rem);
+  background:white;
+  box-shadow:4px 4px 0 var(--black);
+  transition:.12s ease;
+  user-select:none;
+}
+
+.puzzle-tile:hover {
+  background:var(--blue);
+}
+
+.puzzle-tile.selected {
+  background:var(--yellow);
+  transform:scale(.96);
+}
+
+.puzzle-tile.locked {
+  cursor:default;
+}
+
+/* BIG DUMB FOAM FINGER */
+
+.foam-finger {
+  position:absolute;
+  z-index:5;
+  font-size:7rem;
+  pointer-events:none;
+  transform:translate(-25%,-55%) rotate(-18deg);
+  filter:drop-shadow(5px 5px 0 #111);
+  display:none;
+  transition:left .08s linear, top .08s linear;
+}
+
+.game-message {
+  min-height:45px;
+  padding:12px;
+  margin-top:18px;
+  border:3px solid var(--black);
+  border-radius:14px;
+  background:var(--blue);
+  font-weight:900;
+  text-align:center;
+}
+
+.result-box {
+  display:none;
+  margin-top:25px;
+  padding:25px;
+  border:3px solid var(--black);
+  border-radius:18px;
+  background:var(--yellow);
+  text-align:center;
+}
+
+.result-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin:20px 0;
+}
+
+.result-stat {
+  border:3px solid var(--black);
+  border-radius:14px;
+  padding:15px;
+  background:white;
+}
+
+.result-stat strong {
+  display:block;
+  font-size:1.8rem;
+}
+
+/* FEEDBACK */
+
+.feedback {
+  display:none;
+}
+
+.rating-row {
+  margin:25px 0;
+}
+
+.rating-row label {
+  display:block;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.rating-row select,
+textarea {
+  width:100%;
+  padding:14px;
+  border:3px solid var(--black);
+  border-radius:12px;
+  background:white;
+}
+
+textarea {
+  min-height:110px;
+  resize:vertical;
+  margin-top:8px;
+}
+
+/* CHROME CARD */
+
+.collector-section {
+  display:none;
+}
+
+.flip-wrap {
+  perspective:1600px;
+  max-width:430px;
+  margin:45px auto;
+}
+
+.collector-card {
+  position:relative;
+  width:100%;
+  aspect-ratio:2.5 / 3.5;
+  transform-style:preserve-3d;
+  transition:transform .75s cubic-bezier(.2,.7,.2,1);
+  cursor:pointer;
+}
+
+.collector-card.flipped {
+  transform:rotateY(180deg);
+}
+
+.card-face {
+  position:absolute;
+  inset:0;
+  backface-visibility:hidden;
+  border-radius:26px;
+  padding:28px;
+  overflow:hidden;
+  border:2px solid rgba(255,255,255,.55);
+  box-shadow:
+    0 0 0 2px #111,
+    0 20px 60px rgba(0,0,0,.45),
+    inset 0 0 30px rgba(255,255,255,.08);
+}
+
+.card-face::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      115deg,
+      transparent 0%,
+      rgba(255,255,255,.35) 12%,
+      transparent 22%,
+      rgba(0,255,255,.18) 38%,
+      rgba(255,0,255,.15) 52%,
+      transparent 68%,
+      rgba(255,255,255,.28) 82%,
+      transparent 100%
+    );
+  mix-blend-mode:screen;
+  pointer-events:none;
+}
+
+.card-face::after {
+  content:"";
+  position:absolute;
+  inset:-40%;
+  background:
+    conic-gradient(
+      from 0deg,
+      rgba(0,255,255,.15),
+      rgba(255,0,255,.18),
+      rgba(255,255,0,.12),
+      rgba(0,255,255,.15)
+    );
+  animation:holoSpin 8s linear infinite;
+  opacity:.45;
+  pointer-events:none;
+}
+
+@keyframes holoSpin {
+  to {
+    transform:rotate(360deg);
+  }
+}
+
+.card-front {
+  background:
+    linear-gradient(
+      145deg,
+      #0b0b0f 0%,
+      #1c1c22 28%,
+      #444851 48%,
+      #111318 68%,
+      #050506 100%
+    );
+  color:white;
+}
+
+.card-back {
+  background:
+    linear-gradient(
+      145deg,
+      #16181d 0%,
+      #3d4148 30%,
+      #111 55%,
+      #22262d 100%
+    );
+  color:white;
+  transform:rotateY(180deg);
+}
+
+.card-content {
+  position:relative;
+  z-index:3;
+}
+
+.card-topline {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:.78rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  opacity:.85;
+}
+
+.chrome-title {
+  margin-top:36px;
+  font-size:clamp(2.4rem,8vw,4.2rem);
+  line-height:.92;
+  letter-spacing:-.04em;
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #c9c9c9 20%,
+      #ffffff 42%,
+      #7f848c 58%,
+      #eeeeee 75%,
+      #8f949c 100%
+    );
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-transform:uppercase;
+}
+
+.chrome-subtitle {
+  margin-top:16px;
+  font-size:1rem;
+  text-transform:uppercase;
+  letter-spacing:.15em;
+  color:#d9d9d9;
+}
+
+.tester-stamp {
+  display:inline-block;
+  margin-top:30px;
+  padding:8px 13px;
+  border:1px solid rgba(255,255,255,.6);
+  border-radius:999px;
+  font-size:.76rem;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  background:rgba(255,255,255,.06);
+}
+
+.card-rule {
+  height:1px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.7),
+      transparent
+    );
+  margin:28px 0;
+}
+
+.card-label {
+  font-size:.72rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  opacity:.65;
+  margin-bottom:5px;
+}
+
+.card-value {
+  font-size:1rem;
+  font-weight:800;
+  margin-bottom:18px;
+}
+
+.meter {
+  margin:7px 0 20px;
+  font-family:monospace;
+  font-size:1.35rem;
+  letter-spacing:.1em;
+}
+
+.flip-hint {
+  position:absolute;
+  bottom:22px;
+  left:28px;
+  right:28px;
+  text-align:center;
+  font-size:.75rem;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  opacity:.7;
+}
+
+.chrome-orb {
+  position:absolute;
+  width:160px;
+  height:160px;
+  border-radius:50%;
+  right:-45px;
+  bottom:45px;
+  background:
+    radial-gradient(
+      circle at 30% 30%,
+      #ffffff 0%,
+      #a9faff 14%,
+      #7e64ff 34%,
+      #ff5ad9 50%,
+      #20242b 72%,
+      #000 100%
+    );
+  box-shadow:
+    inset -15px -15px 35px rgba(0,0,0,.5),
+    0 0 45px rgba(110,220,255,.16);
+  z-index:1;
+}
+
+.footer {
+  text-align:center;
+  padding:70px 20px;
+}
+
+.hidden {
+  display:none !important;
+}
+
+@media(max-width:700px) {
+
+  .card {
+    padding:28px 22px;
+    border-radius:20px;
+    box-shadow:7px 7px 0 var(--black);
+  }
+
+  .merch-grid,
+  .result-grid {
+    grid-template-columns:1fr;
+  }
+
+  .page {
+    padding:45px 14px;
+  }
+
+  .foam-finger {
+    font-size:5.5rem;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<section class="page" id="welcome">
+  <div class="container">
+    <div class="card">
+
+      <span class="badge">FAWYL Original Tester</span>
+
+      <h1>HEY,<br>COCO.</h1>
+
+      <p class="big-copy">
+        You found the weird little corner of the internet we made specifically for you.
+      </p>
+
+      <p class="big-copy">
+        Welcome to your <strong>FAWYL Tester Portal.</strong>
+      </p>
+
+      <p class="big-copy">
+        You're one of the first people getting your hands on
+        <em>Fail at What You Love</em> before Season 1 exists out in the world.
+      </p>
+
+      <h3>
+        If something breaks, congratulations.<br>
+        That's literally why you're here.
+      </h3>
+
+      <a href="#merch" class="btn">
+        LET'S GO →
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section class="page" id="merch">
+  <div class="container">
+    <div class="card">
+
+      <span class="badge">Tiny Confession</span>
+
+      <h2>FIRST: YOUR STUFF IS COMING. 😂</h2>
+
+      <p class="big-copy">
+        I have not forgotten your merch.
+      </p>
+
+      <p class="big-copy">
+        Your merch is not lost.
+      </p>
+
+      <p class="big-copy">
+        I am apparently just <strong>holding it for ransom.</strong>
+      </p>
+
+      <p>
+        Building this whole ridiculous thing is expensive, my car is currently
+        being fixed, and once it's back and I can reliably make it down the road
+        again, I'll be making deliveries and getting everything moving.
+      </p>
+
+      <p>
+        That's the very unglamorous behind-the-scenes truth.
+      </p>
+
+      <p>
+        But I didn't want you sitting around waiting for a package before you
+        got to be part of this.
+      </p>
+
+      <h3>Your Tester Drop</h3>
+
+      <div class="merch-grid">
+
+        <div class="merch">
+          🧥 FAWYL Hoodie
+        </div>
+
+        <div class="merch">
+          👕 FAWYL Shirt
+        </div>
+
+        <div class="merch">
+          🎁 Bonus Gift #1<br>
+          <span class="small">CLASSIFIED</span>
+        </div>
+
+        <div class="merch">
+          🎁 Bonus Gift #2<br>
+          <span class="small">EXTREMELY CLASSIFIED</span>
+        </div>
+
+      </div>
+
+      <div class="status">
+        <strong>CURRENT STATUS:</strong>
+
+        <p>🚗 Creator currently defeated by transportation.</p>
+        <p>📦 Merch safe.</p>
+        <p>❤️ CoCo absolutely not forgotten.</p>
+      </div>
+
+      <a href="#reveal" class="btn blue">
+        OKAY BUT WHAT DID I GET? →
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section class="page" id="reveal">
+  <div class="container">
+    <div class="card">
+
+      <span class="badge">
+        Your Game Is Waiting
+      </span>
+
+      <h2>
+        SCRATCH TO REVEAL IT.
+      </h2>
+
+      <p>
+        Every original tester is getting an early digital version of a Season 1 game.
+      </p>
+
+      <p>
+        But I'm not just telling you which one.
+      </p>
+
+      <p>
+        <strong>Obviously.</strong>
+      </p>
+
+      <div class="scratch-wrap">
+
+        <div class="scratch-card">
+
+          <div class="reveal-content">
+
+            <p>
+              SEASON 1 ORIGINAL TESTER EDITION
+            </p>
+
+            <h2>
+              FOAM FINGER<br>PUZZLE
+            </h2>
+
+            <p>
+              <strong>ROUND:</strong>
+              Surprise, It's Worse!
+            </p>
+
+            <button class="btn yellow" id="openGameBtn">
+              OPEN MY GAME →
+            </button>
+
+          </div>
+
+          <canvas id="scratchCanvas"></canvas>
+
+        </div>
+
+        <div class="scratch-note">
+          👆 Use your mouse or finger to scratch the card.
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="page game-area" id="game">
+  <div class="container">
+    <div class="card">
+
+      <span class="badge">
+        Season 1 Test Game
+      </span>
+
+      <h2>
+        FOAM FINGER PUZZLE
+      </h2>
+
+      <p class="big-copy">
+        It's a tiny puzzle.
+      </p>
+
+      <h3>
+        Unfortunately, your hand has been replaced by sports merchandise.
+      </h3>
+
+      <div class="status">
+
+        <strong>HOW THIS WORKS</strong>
+
+        <p>🧩 Match the puzzle to the preview.</p>
+        <p>👆 Tap one tile, then another tile to swap them.</p>
+        <p>☝️ Your enormous foam finger will help by blocking your view.</p>
+        <p>⏱️ You have 90 seconds.</p>
+        <p>🏆 Solve it before time runs out.</p>
+
+      </div>
+
+      <div class="game-panel">
+
+        <div class="game-top">
+
+          <div class="stat-box">
+            TIME:
+            <span id="timer">90</span>
+          </div>
+
+          <div class="stat-box">
+            MOVES:
+            <span id="moves">0</span>
+          </div>
+
+        </div>
+
+        <div class="preview-wrap">
+
+          <strong>
+            THIS IS WHAT IT'S SUPPOSED TO LOOK LIKE:
+          </strong>
+
+          <div class="preview-grid">
+
+            <div class="preview-tile">⚡</div>
+            <div class="preview-tile">★</div>
+            <div class="preview-tile">♥️</div>
+
+            <div class="preview-tile">☻</div>
+            <div class="preview-tile">✦</div>
+            <div class="preview-tile">☁️</div>
+
+            <div class="preview-tile">♠️</div>
+            <div class="preview-tile">☂️</div>
+            <div class="preview-tile">✓</div>
+
+          </div>
+
+        </div>
+
+        <button class="btn blue" id="startGameBtn">
+          PUT ON THE FOAM FINGER →
+        </button>
+
+        <div class="puzzle-shell">
+
+          <div class="foam-finger" id="foamFinger">
+            ☝️
+          </div>
+
+          <div class="puzzle-grid" id="puzzleGrid"></div>
+
+        </div>
+
+        <div class="game-message" id="gameMessage">
+          Hit start when you're ready to lose all fine motor control.
+        </div>
+
+        <div class="result-box" id="resultBox">
+
+          <h2 id="resultTitle">
+            PUZZLE COMPLETE.
+          </h2>
+
+          <div class="result-grid">
+
+            <div class="result-stat">
+              <strong id="resultMoves">0</strong>
+              MOVES
+            </div>
+
+            <div class="result-stat">
+              <strong id="resultTime">0</strong>
+              SECONDS LEFT
+            </div>
+
+            <div class="result-stat">
+              <strong id="resultStatus">?</strong>
+              STATUS
+            </div>
+
+          </div>
+
+          <h3 id="verdict">
+            Fine motor skills have left the chat.
+          </h3>
+
+          <button class="btn" id="feedbackBtn">
+            GIVE TESTER FEEDBACK →
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="page feedback" id="feedback">
+  <div class="container">
+    <div class="card">
+
+      <span class="badge">
+        Tester Check-In
+      </span>
+
+      <h2>
+        WELL.
+      </h2>
+
+      <p class="big-copy">
+        You touched a puzzle with a giant foam finger.
+      </p>
+
+      <p>
+        Which is frankly more commitment than we had any right to ask for.
+      </p>
+
+      <div class="rating-row">
+
+        <label>
+          How fun was it?
+        </label>
+
+        <select id="funRating">
+          <option value="">Choose one</option>
+          <option>⭐</option>
+          <option>⭐⭐</option>
+          <option>⭐⭐⭐</option>
+          <option>⭐⭐⭐⭐</option>
+          <option>⭐⭐⭐⭐⭐</option>
+        </select>
+
+      </div>
+
+      <div class="rating-row">
+
+        <label>
+          How easy were the rules to understand?
+        </label>
+
+        <select id="rulesRating">
+          <option value="">Choose one</option>
+          <option>⭐</option>
+          <option>⭐⭐</option>
+          <option>⭐⭐⭐</option>
+          <option>⭐⭐⭐⭐</option>
+          <option>⭐⭐⭐⭐⭐</option>
+        </select>
+
+      </div>
+
+      <div class="rating-row">
+
+        <label>
+          How difficult was the actual game?
+        </label>
+
+        <select id="difficultyRating">
+          <option value="">Choose one</option>
+          <option>⭐</option>
+          <option>⭐⭐</option>
+          <option>⭐⭐⭐</option>
+          <option>⭐⭐⭐⭐</option>
+          <option>⭐⭐⭐⭐⭐</option>
+        </select>
+
+      </div>
+
+      <div class="rating-row">
+
+        <label>
+          Would you willingly play this again?
+        </label>
+
+        <select id="playAgain">
+          <option value="">Choose one</option>
+          <option>Absolutely</option>
+          <option>Maybe</option>
+          <option>I have suffered enough</option>
+        </select>
+
+      </div>
+
+      <div class="rating-row">
+        <label>What confused you?</label>
+        <textarea id="confused"></textarea>
+      </div>
+
+      <div class="rating-row">
+        <label>What was your favorite part?</label>
+        <textarea id="favorite"></textarea>
+      </div>
+
+      <div class="rating-row">
+        <label>What would you change?</label>
+        <textarea id="change"></textarea>
+      </div>
+
+      <div class="rating-row">
+        <label>Did anything break or behave weirdly?</label>
+        <textarea id="broken"></textarea>
+      </div>
+
+      <button class="btn green" id="submitFeedback">
+        SAVE MY FEEDBACK →
+      </button>
+
+    </div>
+  </div>
+</section>
+
+<section class="page collector-section" id="collector">
+  <div class="container">
+    <div class="card">
+
+      <span class="badge">
+        One More Thing
+      </span>
+
+      <h2>
+        YOUR COLLECTOR CARD.
+      </h2>
+
+      <p>
+        You're part of the group helping build Season 1.
+      </p>
+
+      <h3>
+        Which means you're officially one of the people who were here before we knew whether any of this actually worked.
+      </h3>
+
+      <div class="flip-wrap">
+
+        <div class="collector-card" id="collectorCard">
+
+          <div class="card-face card-front">
+
+            <div class="chrome-orb"></div>
+
+            <div class="card-content">
+
+              <div class="card-topline">
+
+                <span>
+                  FAWYL // ORIGINAL TESTER
+                </span>
+
+                <span>
+                  05 / 09
+                </span>
+
+              </div>
+
+              <div class="card-rule"></div>
+
+              <div class="chrome-title">
+                COCO
+              </div>
+
+              <div class="chrome-subtitle">
+                Foam Finger Puzzle
+              </div>
+
+              <div class="tester-stamp">
+                Pre-Season Test Run
+              </div>
+
+              <div class="card-rule"></div>
+
+              <div class="card-label">
+                Classification
+              </div>
+
+              <div class="card-value">
+                Original Season 1 Tester
+              </div>
+
+              <div class="card-label">
+                Status
+              </div>
+
+              <div class="card-value">
+                Hands Were Technically Involved
+              </div>
+
+              <div class="flip-hint">
+                Tap to flip →
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="card-face card-back">
+
+            <div class="card-content">
+
+              <div class="card-topline">
+
+                <span>
+                  FAIL AT WHAT YOU LOVE
+                </span>
+
+                <span>
+                  SEASON 1
+                </span>
+
+              </div>
+
+              <div class="card-rule"></div>
+
+              <div
+                class="chrome-title"
+                style="font-size:2.1rem;"
+              >
+                FOAM FINGER<br>PUZZLE
+              </div>
+
+              <div class="card-rule"></div>
+
+              <div class="card-label">
+                Round
+              </div>
+
+              <div class="card-value">
+                Surprise, It's Worse!
+              </div>
+
+              <div class="card-label">
+                Mission
+              </div>
+
+              <div class="card-value">
+                Complete a puzzle while an enormous fake hand makes everything unnecessarily difficult.
+              </div>
+
+              <div class="card-label">
+                FAWYL Difficulty
+              </div>
+
+              <div class="meter">
+                ████░
+              </div>
+
+              <div class="card-label">
+                Chance of yelling at a foam finger
+              </div>
+
+              <div class="meter">
+                █████
+              </div>
+
+              <div class="card-label">
+                Original Tester
+              </div>
+
+              <div class="card-value">
+                CoCo
+              </div>
+
+              <div class="flip-hint">
+                Tap to flip back →
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <p style="text-align:center;">
+        A physical version of this collector card is planned as part of the Season 1 game collection.
+      </p>
+
+      <p style="text-align:center;">
+        <strong>
+          Meaning yes. You get to say you had yours first.
+        </strong>
+      </p>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+
+  <h2>
+    THANK YOU, COCO.
+  </h2>
+
+  <p>For being early.</p>
+  <p>For being patient.</p>
+  <p>For helping build this while we're still figuring it out.</p>
+
+  <br>
+
+  <h3>
+    DO THE THING.<br>
+    FAIL AT THE THING.<br>
+    LOVE THE THING.
+  </h3>
+
+  <p>
+    — FAWYL
+  </p>
+
+</footer>
+
+<script>
+
+/* =========================
+   SCRATCH CARD
+========================= */
+
+const scratchCanvas =
+  document.getElementById("scratchCanvas");
+
+const scratchCtx =
+  scratchCanvas.getContext("2d");
+
+function sizeScratchCanvas() {
+
+  const rect =
+    scratchCanvas.getBoundingClientRect();
+
+  const ratio =
+    window.devicePixelRatio || 1;
+
+  scratchCanvas.width =
+    rect.width * ratio;
+
+  scratchCanvas.height =
+    rect.height * ratio;
+
+  scratchCtx.setTransform(
+    ratio,
+    0,
+    0,
+    ratio,
+    0,
+    0
+  );
+
+  const gradient =
+    scratchCtx.createLinearGradient(
+      0,
+      0,
+      rect.width,
+      rect.height
+    );
+
+  gradient.addColorStop(0,"#b7b7b7");
+  gradient.addColorStop(.5,"#eeeeee");
+  gradient.addColorStop(1,"#969696");
+
+  scratchCtx.globalCompositeOperation =
+    "source-over";
+
+  scratchCtx.fillStyle =
+    gradient;
+
+  scratchCtx.fillRect(
+    0,
+    0,
+    rect.width,
+    rect.height
+  );
+
+  scratchCtx.fillStyle =
+    "#222";
+
+  scratchCtx.textAlign =
+    "center";
+
+  scratchCtx.font =
+    "900 28px Arial";
+
+  scratchCtx.fillText(
+    "SCRATCH ME",
+    rect.width / 2,
+    rect.height / 2
+  );
+
+  scratchCtx.font =
+    "700 16px Arial";
+
+  scratchCtx.fillText(
+    "YOUR GAME IS UNDER HERE",
+    rect.width / 2,
+    rect.height / 2 + 35
+  );
+}
+
+sizeScratchCanvas();
+
+let scratching = false;
+let hasScratched = false;
+
+function scratch(x,y) {
+
+  const rect =
+    scratchCanvas.getBoundingClientRect();
+
+  const px =
+    x - rect.left;
+
+  const py =
+    y - rect.top;
+
+  scratchCtx.globalCompositeOperation =
+    "destination-out";
+
+  scratchCtx.beginPath();
+
+  scratchCtx.arc(
+    px,
+    py,
+    32,
+    0,
+    Math.PI * 2
+  );
+
+  scratchCtx.fill();
+
+  hasScratched = true;
+}
+
+scratchCanvas.addEventListener(
+  "pointerdown",
+  e => {
+
+    scratching = true;
+
+    scratchCanvas.setPointerCapture(
+      e.pointerId
+    );
+
+    scratch(
+      e.clientX,
+      e.clientY
+    );
+
+  }
+);
+
+scratchCanvas.addEventListener(
+  "pointermove",
+  e => {
+
+    if (!scratching) return;
+
+    scratch(
+      e.clientX,
+      e.clientY
+    );
+
+  }
+);
+
+scratchCanvas.addEventListener(
+  "pointerup",
+  e => {
+
+    scratching = false;
+
+    if (
+      scratchCanvas.hasPointerCapture(
+        e.pointerId
+      )
+    ) {
+
+      scratchCanvas.releasePointerCapture(
+        e.pointerId
+      );
+
+    }
+
+    if (hasScratched) {
+
+      setTimeout(
+        () => {
+
+          scratchCanvas.style.display =
+            "none";
+
+        },
+        250
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================
+   OPEN GAME
+========================= */
+
+document
+  .getElementById("openGameBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      scratchCanvas.style.display =
+        "none";
+
+      const game =
+        document.getElementById(
+          "game"
+        );
+
+      game.style.display =
+        "flex";
+
+      game.scrollIntoView({
+        behavior:"smooth"
+      });
+
+    }
+  );
+
+
+/* =========================
+   FOAM FINGER PUZZLE
+========================= */
+
+const solution = [
+  "⚡",
+  "★",
+  "♥️",
+  "☻",
+  "✦",
+  "☁️",
+  "♠️",
+  "☂️",
+  "✓"
+];
+
+let pieces = [];
+let selectedIndex = null;
+let moves = 0;
+let timeLeft = 90;
+let gameRunning = false;
+let timerInterval = null;
+
+const puzzleGrid =
+  document.getElementById(
+    "puzzleGrid"
+  );
+
+const startGameBtn =
+  document.getElementById(
+    "startGameBtn"
+  );
+
+const movesDisplay =
+  document.getElementById(
+    "moves"
+  );
+
+const timerDisplay =
+  document.getElementById(
+    "timer"
+  );
+
+const foamFinger =
+  document.getElementById(
+    "foamFinger"
+  );
+
+const gameMessage =
+  document.getElementById(
+    "gameMessage"
+  );
+
+const resultBox =
+  document.getElementById(
+    "resultBox"
+  );
+
+
+function shuffledPuzzle() {
+
+  let shuffled;
+
+  do {
+
+    shuffled =
+      [...solution]
+        .sort(
+          () =>
+            Math.random() - .5
+        );
+
+  } while (
+    shuffled.join("") ===
+    solution.join("")
+  );
+
+  return shuffled;
+}
+
+
+function renderPuzzle() {
+
+  puzzleGrid.innerHTML =
+    "";
+
+  pieces.forEach(
+    (piece,index) => {
+
+      const tile =
+        document.createElement(
+          "button"
+        );
+
+      tile.className =
+        "puzzle-tile";
+
+      tile.textContent =
+        piece;
+
+      if (
+        selectedIndex ===
+        index
+      ) {
+
+        tile.classList.add(
+          "selected"
+        );
+
+      }
+
+      if (!gameRunning) {
+
+        tile.classList.add(
+          "locked"
+        );
+
+      }
+
+      tile.addEventListener(
+        "click",
+        event => {
+
+          if (!gameRunning) return;
+
+          moveFoamFinger(
+            event,
+            tile
+          );
+
+          handleTileClick(
+            index
+          );
+
+        }
+      );
+
+      puzzleGrid.appendChild(
+        tile
+      );
+
+    }
+  );
+
+}
+
+
+function moveFoamFinger(
+  event,
+  tile
+) {
+
+  const shell =
+    document
+      .querySelector(
+        ".puzzle-shell"
+      );
+
+  const shellRect =
+    shell.getBoundingClientRect();
+
+  const tileRect =
+    tile.getBoundingClientRect();
+
+  foamFinger.style.display =
+    "block";
+
+  foamFinger.style.left =
+    (
+      tileRect.left -
+      shellRect.left +
+      tileRect.width / 2
+    ) + "px";
+
+  foamFinger.style.top =
+    (
+      tileRect.top -
+      shellRect.top +
+      tileRect.height / 2
+    ) + "px";
+
+}
+
+
+function handleTileClick(index) {
+
+  if (
+    selectedIndex ===
+    null
+  ) {
+
+    selectedIndex =
+      index;
+
+    gameMessage.textContent =
+      "Great. Now pick another tile. Yes, the giant finger is staying.";
+
+    renderPuzzle();
+
+    return;
+
+  }
+
+  if (
+    selectedIndex ===
+    index
+  ) {
+
+    selectedIndex =
+      null;
+
+    gameMessage.textContent =
+      "Changed your mind. Understandable.";
+
+    renderPuzzle();
+
+    return;
+
+  }
+
+  const first =
+    pieces[
+      selectedIndex
+    ];
+
+  pieces[
+    selectedIndex
+  ] =
+    pieces[index];
+
+  pieces[index] =
+    first;
+
+  moves++;
+
+  movesDisplay.textContent =
+    moves;
+
+  selectedIndex =
+    null;
+
+  const messages = [
+    "Two tiles swapped. Progress allegedly occurred.",
+    "Excellent. Probably.",
+    "The foam finger remains deeply unhelpful.",
+    "Fine motor control is a luxury.",
+    "Something moved. Let's call that progress.",
+    "Sports equipment was never meant for this."
+  ];
+
+  gameMessage.textContent =
+    messages[
+      Math.floor(
+        Math.random() *
+        messages.length
+      )
+    ];
+
+  renderPuzzle();
+
+  checkSolved();
+
+}
+
+
+function checkSolved() {
+
+  const solved =
+    pieces.every(
+      (piece,index) =>
+        piece ===
+        solution[index]
+    );
+
+  if (solved) {
+
+    finishGame(true);
+
+  }
+
+}
+
+
+startGameBtn.addEventListener(
+  "click",
+  () => {
+
+    if (gameRunning) return;
+
+    pieces =
+      shuffledPuzzle();
+
+    moves = 0;
+
+    selectedIndex =
+      null;
+
+    timeLeft = 90;
+
+    movesDisplay.textContent =
+      "0";
+
+    timerDisplay.textContent =
+      "90";
+
+    gameRunning =
+      true;
+
+    startGameBtn.disabled =
+      true;
+
+    startGameBtn.textContent =
+      "FOAM FINGER ENGAGED";
+
+    gameMessage.textContent =
+      "Go. The clock is running and your hand is enormous.";
+
+    renderPuzzle();
+
+    timerInterval =
+      setInterval(
+        () => {
+
+          timeLeft--;
+
+          timerDisplay.textContent =
+            timeLeft;
+
+          if (
+            timeLeft <= 0
+          ) {
+
+            finishGame(false);
+
+          }
+
+        },
+        1000
+      );
+
+  }
+);
+
+
+function finishGame(solved) {
+
+  if (!gameRunning) return;
+
+  gameRunning =
+    false;
+
+  clearInterval(
+    timerInterval
+  );
+
+  selectedIndex =
+    null;
+
+  renderPuzzle();
+
+  foamFinger.style.display =
+    "none";
+
+  resultBox.style.display =
+    "block";
+
+  document
+    .getElementById(
+      "resultMoves"
+    )
+    .textContent =
+    moves;
+
+  document
+    .getElementById(
+      "resultTime"
+    )
+    .textContent =
+    Math.max(
+      0,
+      timeLeft
+    );
+
+
+  const status =
+    document.getElementById(
+      "resultStatus"
+    );
+
+  const title =
+    document.getElementById(
+      "resultTitle"
+    );
+
+  const verdict =
+    document.getElementById(
+      "verdict"
+    );
+
+
+  if (solved) {
+
+    title.textContent =
+      "PUZZLE COMPLETE.";
+
+    status.textContent =
+      "SOLVED";
+
+    if (moves <= 12) {
+
+      verdict.textContent =
+        "FINAL VERDICT: DISTURBINGLY COMPETENT.";
+
+    } else if (
+      moves <= 22
+    ) {
+
+      verdict.textContent =
+        "FINAL VERDICT: FINE MOTOR SKILLS SURVIVED.";
+
+    } else {
+
+      verdict.textContent =
+        "FINAL VERDICT: IT TOOK A WHILE, BUT THE FOAM FINGER LOST.";
+
+    }
+
+  } else {
+
+    title.textContent =
+      "TIME'S UP.";
+
+    status.textContent =
+      "MANGLED";
+
+    verdict.textContent =
+      "FINAL VERDICT: THE FOAM FINGER WON.";
+
+  }
+
+
+  gameMessage.textContent =
+    "Hands were technically involved.";
+
+  resultBox.scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+
+}
+
+
+/* =========================
+   FEEDBACK
+========================= */
+
+document
+  .getElementById(
+    "feedbackBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      const feedback =
+        document.getElementById(
+          "feedback"
+        );
+
+      feedback.style.display =
+        "flex";
+
+      feedback.scrollIntoView({
+        behavior:"smooth"
+      });
+
+    }
+  );
+
+
+document
+  .getElementById(
+    "submitFeedback"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      const feedbackData = {
+
+        tester:"CoCo",
+
+        game:"Foam Finger Puzzle",
+
+        moves:moves,
+
+        fun:
+          document
+            .getElementById(
+              "funRating"
+            ).value,
+
+        rules:
+          document
+            .getElementById(
+              "rulesRating"
+            ).value,
+
+        difficulty:
+          document
+            .getElementById(
+              "difficultyRating"
+            ).value,
+
+        playAgain:
+          document
+            .getElementById(
+              "playAgain"
+            ).value,
+
+        confused:
+          document
+            .getElementById(
+              "confused"
+            ).value,
+
+        favorite:
+          document
+            .getElementById(
+              "favorite"
+            ).value,
+
+        change:
+          document
+            .getElementById(
+              "change"
+            ).value,
+
+        broken:
+          document
+            .getElementById(
+              "broken"
+            ).value
+
+      };
+
+      localStorage.setItem(
+        "fawylCoCoFeedback",
+        JSON.stringify(
+          feedbackData
+        )
+      );
+
+      const collector =
+        document.getElementById(
+          "collector"
+        );
+
+      collector.style.display =
+        "flex";
+
+      collector.scrollIntoView({
+        behavior:"smooth"
+      });
+
+    }
+  );
+
+
+/* =========================
+   COLLECTOR CARD
+========================= */
+
+document
+  .getElementById(
+    "collectorCard"
+  )
+  .addEventListener(
+    "click",
+    function() {
+
+      this.classList.toggle(
+        "flipped"
+      );
+
+    }
+  );
+
+</script>
+
+</body>
+</html>
